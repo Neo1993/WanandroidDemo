@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.neo.wanandroid.base.BaseActivity
 import com.neo.wanandroid.ui.discover.DiscoverFragment
 import com.neo.wanandroid.ui.guide.GuideFragment
 import com.neo.wanandroid.ui.home.HomeFragment
@@ -11,13 +12,16 @@ import com.neo.wanandroid.ui.mine.MineFragment
 import com.neo.wanandroid.ui.system.SystemFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     private lateinit var fragments : Map<Int, Fragment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         initView()
+    }
+
+    override fun getLayoutId(): Int {
+        return R.layout.activity_main
     }
 
     private fun initView(){
