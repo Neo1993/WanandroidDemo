@@ -6,13 +6,15 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+/**
+ * 创建单例对象 -- 双重校验锁
+ */
+val apiService: ApiService by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+    RequestClient.INSTANCE.getApi(ApiService::class.java, ApiService.BASE_URL)
+}
+
+
 class RequestClient {
-    /**
-     * 创建单例对象 -- 双重校验锁
-     */
-    val apiService: ApiService by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-        RequestClient.INSTANCE.getApi(ApiService::class.java, ApiService.BASE_URL)
-    }
 
     companion object {
         //创建单例对象
@@ -46,7 +48,7 @@ class RequestClient {
     /**
      * 根据配置获取请求对象
      */
-    private fun <T> getApi(serviceClass: Class<T>, baseUrl: String): T {
+    fun <T> getApi(serviceClass: Class<T>, baseUrl: String): T {
         return createRetrofitBuilder()
                 .client(createOkHttpClientBuilder().build())
                 .baseUrl(baseUrl)
