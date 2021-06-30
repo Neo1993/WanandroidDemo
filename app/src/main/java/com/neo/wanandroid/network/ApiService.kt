@@ -1,5 +1,6 @@
 package com.neo.wanandroid.network
 
+import com.neo.wanandroid.model.bean.BannerResponse
 import retrofit2.http.GET
 
 interface ApiService {
@@ -8,6 +9,6 @@ interface ApiService {
     }
 
     @GET("/banner/json")
-    suspend fun getBanner() : ApiResponse<String>
+    suspend fun getBanner() : ApiResponse<List<BannerResponse>>
 
 }
