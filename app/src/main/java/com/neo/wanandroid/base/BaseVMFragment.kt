@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.neo.wanandroid.ext.dismissLoadingExt
 import com.neo.wanandroid.ext.getVMClazz
+import com.neo.wanandroid.ext.showLoadingExt
 
 abstract class BaseVMFragment<VM : BaseViewModel> : BaseFragment() {
     lateinit var mViewModel: VM
@@ -30,4 +32,13 @@ abstract class BaseVMFragment<VM : BaseViewModel> : BaseFragment() {
     private fun createViewModel(): VM {
         return ViewModelProvider(this).get(getVMClazz(this))
     }
+
+    override fun showLoading(loadingMessage: String) {
+        showLoadingExt(loadingMessage)
+    }
+
+    override fun dissmissLoading() {
+        dismissLoadingExt()
+    }
+
 }

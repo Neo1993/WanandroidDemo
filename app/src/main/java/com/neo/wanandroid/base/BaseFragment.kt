@@ -11,6 +11,8 @@ abstract class BaseFragment : Fragment(){
         return layoutInflater.inflate(getLayoutId(), container, false)
     }
 
+    abstract fun showLoading(loadingMessage : String  = "正在加载中")
+    abstract fun dissmissLoading()
     abstract fun getLayoutId() : Int
 
 }

@@ -12,17 +12,18 @@ import com.neo.wanandroid.ui.mine.MineFragment
 import com.neo.wanandroid.ui.system.SystemFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var fragments : Map<Int, Fragment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
         initView()
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_main
-    }
+//    override fun getLayoutId(): Int {
+//        return R.layout.activity_main
+//    }
 
     private fun initView(){
         fragments = mapOf(

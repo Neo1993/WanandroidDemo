@@ -1,5 +1,6 @@
 package com.neo.wanandroid.ext
 
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
@@ -48,8 +49,8 @@ fun Fragment.showLoadingExt(message: String = loadingMsg){
                     .customView(R.layout.layout_loading_dialog_view)
                     .lifecycleOwner(this)
             }
-            loadingDialog?.getCustomView().run {
-                messageTV.text = message
+            loadingDialog?.getCustomView()?.run {
+                findViewById<TextView>(R.id.messageTV).text = message
             }
         }
         loadingDialog?.show()
