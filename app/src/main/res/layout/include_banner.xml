@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.zhpan.bannerview.BannerViewPager
-        android:id="@+id/banner_view"
+        android:id="@+id/bannerVP"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         app:bvp_auto_play="true"

@@ -21,9 +21,9 @@ fun <T> BaseViewModel.request(
             if (isShowDialog) requestCallback.value = RequestCallback.onAppLoading(loadingMessage)
             block.invoke()
         }.onSuccess {
-
+            requestCallback.value = RequestCallback.onAppSuccess(it.data)
         }.onFailure {
-
+            requestCallback.value = RequestCallback.onAppError(Exception(it))
         }
     }
 
@@ -32,7 +32,7 @@ fun <T> BaseViewModel.request(
 fun <T> BaseVMActivity<*>.handleCallback(
         requestCallback: RequestCallback<T>,
         onSuccess: (T) -> Unit,
-        onError: ((e: Exception) -> Unit),
+        onError: ((e: Exception) -> Unit)? = null,
         onLoading: (() -> Unit)? = null
 ) {
     when (requestCallback) {
@@ -46,10 +46,9 @@ fun <T> BaseVMActivity<*>.handleCallback(
         }
         is RequestCallback.Error -> {
             dissmissLoading()
-            onError.run {
+            onError?.run {
                 this(requestCallback.exception)
             }
-//                onError(Exception(requestCallback.exception))
         }
     }
 
@@ -58,7 +57,7 @@ fun <T> BaseVMActivity<*>.handleCallback(
 fun <T> BaseVMFragment<*>.handleCallback(
         requestCallback: RequestCallback<T>,
         onSuccess: (T) -> Unit,
-        onError: ((e: Exception) -> Unit),
+        onError: ((e: Exception) -> Unit)? = null,
         onLoading: (() -> Unit)? = null
 ) {
     when (requestCallback) {
@@ -72,7 +71,7 @@ fun <T> BaseVMFragment<*>.handleCallback(
         }
         is RequestCallback.Error -> {
             dissmissLoading()
-            onError.run {
+            onError?.run {
                 this(requestCallback.exception)
             }
         }

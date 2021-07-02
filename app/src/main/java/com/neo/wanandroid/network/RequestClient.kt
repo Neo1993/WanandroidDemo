@@ -1,5 +1,6 @@
 package com.neo.wanandroid.network
 
+import com.neo.wanandroid.network.interceptor.logging.LogInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -27,13 +28,13 @@ class RequestClient {
      * 配置OkhttpClient
      */
     private fun createOkHttpClientBuilder(): OkHttpClient.Builder {
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+//        val loggingInterceptor = HttpLoggingInterceptor()
+//        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         val builder = OkHttpClient.Builder()
         return builder.connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(5, TimeUnit.SECONDS)
                 .writeTimeout(5, TimeUnit.SECONDS)
-                .addInterceptor(loggingInterceptor)
+                .addInterceptor(LogInterceptor())
 
     }
 

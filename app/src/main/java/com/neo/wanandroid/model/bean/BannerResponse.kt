@@ -1,12 +1,15 @@
 package com.neo.wanandroid.model.bean
 
+/**
+ * 首页轮播图
+ */
 data class BannerResponse(
-    val desc: String = "",
-    val id: Int = 0,
-    val imagePath: String = "",
-    val isVisible: Int = 0,
-    val order: Int = 0,
-    val title: String = "",
-    val type: Int = 0,
-    val url: String = ""
+    var desc: String = "",
+    var id: Int = 0,
+    var imagePath: String = "",
+    var isVisible: Int = 0,
+    var order: Int = 0,
+    var title: String = "",
+    var type: Int = 0,
+    var url: String = ""
 )
