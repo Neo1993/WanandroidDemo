@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import com.neo.wanandroid.base.BaseActivity
 import com.neo.wanandroid.ui.discover.DiscoverFragment
 import com.neo.wanandroid.ui.guide.GuideFragment
