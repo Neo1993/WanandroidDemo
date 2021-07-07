@@ -7,13 +7,15 @@ import com.neo.wanandroid.base.BaseVMFragment
 import com.neo.wanandroid.base.BaseViewModel
 import com.neo.wanandroid.network.ApiResponse
 import com.neo.wanandroid.network.RequestCallback
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 fun <T> BaseViewModel.request(
         block: suspend () -> ApiResponse<T>,
         requestCallback: MutableLiveData<RequestCallback<T>>,
-        isShowDialog: Boolean = true,
+        isShowDialog: Boolean = false,
         loadingMessage: String = loadingMsg
 ): Job {
     return viewModelScope.launch {
@@ -26,8 +28,27 @@ fun <T> BaseViewModel.request(
             requestCallback.value = RequestCallback.onAppError(Exception(it))
         }
     }
-
 }
+
+fun <T> BaseViewModel.request(
+        block: suspend () -> ApiResponse<T>,
+        success : (T) -> Unit,
+        error: (Exception) -> Unit = {},
+        isShowDialog: Boolean = false,
+        loadingMessage: String = loadingMsg
+): Job{
+    return viewModelScope.launch {
+        runCatching {
+            if(isShowDialog) loadingMessage
+        }.onSuccess {
+
+        }.onFailure {
+
+        }
+    }
+}
+
+
 
 fun <T> BaseVMActivity<*>.handleCallback(
         requestCallback: RequestCallback<T>,

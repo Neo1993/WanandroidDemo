@@ -14,18 +14,17 @@ import com.neo.wanandroid.network.apiService
 class RequestHomeViewModel : BaseViewModel() {
     val bannerData: MutableLiveData<RequestCallback<List<BannerResponse>>> = MutableLiveData()
     val articleList: MutableLiveData<RequestCallback<ApiPageResponse<List<HomeArticle>>>> = MutableLiveData()
-//    val articleList: MutableLiveData<RequestCallback<List<HomeArticle>>> = MutableLiveData()
+
+    private var page : Int = 1;
+    private var isRefresh : Boolean = true;
 
     fun getBanner() {
         request({ apiService.getBanner() }, bannerData)
     }
 
-    fun getHomeArticle( ) {
-        request(
-            {
-               apiService.getHomeArticleList(1)
-            }, articleList
-        )
+    fun getHomeArticle() {
+        if (isRefresh) page = 1 else page++
+        request({ apiService.getHomeArticleList(page) }, articleList, false)
 
     }
 
