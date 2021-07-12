@@ -21,7 +21,8 @@ fun <T> BaseViewModel.request(
     return viewModelScope.launch {
         runCatching {
             if (isShowDialog) requestCallback.value = RequestCallback.onAppLoading(loadingMessage)
-            block.invoke()
+//            block.invoke()
+            block()
         }.onSuccess {
             requestCallback.value = RequestCallback.onAppSuccess(it.data)
         }.onFailure {
@@ -39,16 +40,17 @@ fun <T> BaseViewModel.request(
 ): Job{
     return viewModelScope.launch {
         runCatching {
-            if(isShowDialog) loadingMessage
+            if(isShowDialog) uiLoadingChange.showDialog.postValue(loadingMessage)
+            block.invoke()
         }.onSuccess {
-
+            uiLoadingChange.dismissDialog.postValue(true)
+            success(it.getResponseData())
         }.onFailure {
-
+            uiLoadingChange.dismissDialog.postValue(true)
+            error(Exception(it))
         }
     }
 }
-
-
 
 fun <T> BaseVMActivity<*>.handleCallback(
         requestCallback: RequestCallback<T>,

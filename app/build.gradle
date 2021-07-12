@@ -87,4 +87,10 @@ dependencies {
     //util
     implementation 'com.blankj:utilcodex:1.26.0'
 
+    //RevealLayout
+    implementation 'com.github.goweii:RevealLayout:1.1.1'
+
+    //屏幕适配
+    implementation 'me.jessyan:autosize:1.2.1'
+
 }

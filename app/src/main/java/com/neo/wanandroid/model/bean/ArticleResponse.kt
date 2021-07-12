@@ -31,7 +31,7 @@ data class ArticleResponse(
     var shareUser: String = "",
     var superChapterId: Int = 0,
     var superChapterName: String = "",
-    var tags: List<Any> = listOf(),
+    var tags: List<TagResponse> = listOf(),
     var title: String = "",
     var type: Int = 0,
     var userId: Int = 0,

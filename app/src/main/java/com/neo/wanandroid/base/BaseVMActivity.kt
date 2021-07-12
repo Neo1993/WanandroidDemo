@@ -1,6 +1,7 @@
 package com.neo.wanandroid.base
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.neo.wanandroid.ext.getVMClazz
 
@@ -21,13 +22,22 @@ abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity() {
 
     private fun init(savedInstanceState: Bundle?) {
         mViewModel = createViewModel()
+        addLoadingObserve()
     }
-
 
     private fun createViewModel(): VM {
         return ViewModelProvider(this).get(getVMClazz(this))
     }
 
+    private fun addLoadingObserve() {
+        mViewModel.uiLoadingChange.showDialog.observe(this, Observer {
+            showLoading(it)
+        })
+
+        mViewModel.uiLoadingChange.dismissDialog.observe(this, Observer {
+            dissmissLoading()
+        })
+    }
 
 
 }

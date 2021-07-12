@@ -15,9 +15,9 @@ sealed class RequestCallback<out T>{
     data class Error<T>(val exception : Exception) : RequestCallback<T>()
 }
 
-fun <T> MutableLiveData<RequestCallback<T>>.handleCallback(result : BaseResponse<T>){
-    value = when {
-        result.isSuccess() -> RequestCallback.onAppSuccess(result.getResponseData())
-        else -> RequestCallback.onAppError(Exception(result.getResponseMsg()))
-    }
-}
+//fun <T> MutableLiveData<RequestCallback<T>>.handleCallback(result : BaseResponse<T>){
+//    value = when {
+//        result.isSuccess() -> RequestCallback.onAppSuccess(result.getResponseData())
+//        else -> RequestCallback.onAppError(Exception(result.getResponseMsg()))
+//    }
+//}

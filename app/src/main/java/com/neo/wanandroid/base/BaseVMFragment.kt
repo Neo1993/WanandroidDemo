@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.neo.wanandroid.ext.dismissLoadingExt
 import com.neo.wanandroid.ext.getVMClazz
@@ -25,12 +26,23 @@ abstract class BaseVMFragment<VM : BaseViewModel> : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewModel = createViewModel()
+        addLoadingObserve()
         initView(savedInstanceState)
     }
 
 
     private fun createViewModel(): VM {
         return ViewModelProvider(this).get(getVMClazz(this))
+    }
+
+    private fun addLoadingObserve() {
+        mViewModel.uiLoadingChange.showDialog.observe(viewLifecycleOwner, Observer {
+            showLoading(it)
+        })
+
+        mViewModel.uiLoadingChange.dismissDialog.observe(viewLifecycleOwner, Observer {
+            dissmissLoading()
+        })
     }
 
     override fun showLoading(loadingMessage: String) {
