@@ -10,7 +10,6 @@ import com.neo.wanandroid.R
 import com.neo.wanandroid.ext.setAdapterAnimation
 import com.neo.wanandroid.ext.toHtml
 import com.neo.wanandroid.model.bean.ArticleResponse
-import com.neo.wanandroid.model.bean.Tag
 import com.neo.wanandroid.ui.widget.custom.CollectView
 
 class ArticleAdapter(dataList: MutableList<ArticleResponse>) :

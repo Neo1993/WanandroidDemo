@@ -8,22 +8,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 /**
- * 创建单例对象 -- 双重校验锁
+ * 创建单例对象
  */
 val apiService: ApiService by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-    RequestClient.INSTANCE.getApi(ApiService::class.java, ApiService.BASE_URL)
+    RequestClient().getApi(ApiService::class.java, ApiService.BASE_URL)
 }
 
-
 class RequestClient {
-
-    companion object {
-        //创建单例对象
-        val INSTANCE: RequestClient by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-            RequestClient()
-        }
-    }
-
     /**
      * 配置OkhttpClient
      */

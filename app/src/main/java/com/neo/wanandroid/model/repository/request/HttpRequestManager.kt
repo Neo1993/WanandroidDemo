@@ -8,6 +8,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
+/**
+ * 创建单例对象
+ */
+val httpRequstManager: HttpRequestManager by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+    HttpRequestManager()
+}
+
 class HttpRequestManager {
     suspend fun getHomeArticleList(page : Int) : ApiResponse<ApiPageResponse<ArrayList<ArticleResponse>>>{
         //同时异步请求2个接口，请求完成后合并数据
@@ -20,7 +27,6 @@ class HttpRequestManager {
             }else{
                 articleList.await()
             }
-//            articleList.await()
         }
 
     }

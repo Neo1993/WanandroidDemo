@@ -2,20 +2,27 @@ package com.neo.wanandroid.ui.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.blankj.utilcode.util.ConvertUtils
+import com.kingja.loadsir.LoadSirUtil
+import com.kingja.loadsir.core.LoadService
+import com.kingja.loadsir.core.LoadSir
 import com.neo.wanandroid.R
 import com.neo.wanandroid.base.BaseFragment
 import com.neo.wanandroid.base.BaseVMFragment
 import com.neo.wanandroid.ext.handleCallback
 import com.neo.wanandroid.ext.init
+import com.neo.wanandroid.ext.showLoading
 import com.neo.wanandroid.model.bean.ArticleResponse
 import com.neo.wanandroid.model.bean.BannerResponse
 import com.neo.wanandroid.ui.adapter.ArticleAdapter
+import com.neo.wanandroid.ui.widget.loadcallback.LoadingCallback
 import com.neo.wanandroid.ui.widget.recyclerview.SpaceItemDecoration
 import com.neo.wanandroid.vm.RequestHomeViewModel
 import com.zhpan.bannerview.BannerViewPager
@@ -25,17 +32,27 @@ import java.util.ArrayList
 
 class HomeFragment : BaseVMFragment<RequestHomeViewModel>() {
     private val articleAdapter: ArticleAdapter = ArticleAdapter(arrayListOf())
+    private lateinit var loadService: LoadService<Any>
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_home
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        loadService = LoadSir.getDefault().register(mFragmentView) {
+            loadService.showLoading()
+            initLoadData()
+        }
+        loadService.showLoading()
+
+        swipeRefreshLayout.init {
+            initLoadData()
+        }
+
         recyclerView.init(LinearLayoutManager(context), articleAdapter).let {
             it.addItemDecoration(SpaceItemDecoration(0,ConvertUtils.dp2px(8f), false))
         }
-        mViewModel.getBanner()
-        mViewModel.getHomeArticle()
+        initLoadData()
         createObserver()
     }
 
@@ -62,12 +79,31 @@ class HomeFragment : BaseVMFragment<RequestHomeViewModel>() {
             })
             //监听文章数据列表的变化
             articleList.observe(viewLifecycleOwner, Observer {
-                handleCallback(it, {
-                    articleAdapter.addData(it.datas)
-                })
+                loadService.showSuccess()
+                swipeRefreshLayout.isRefreshing = false
+//                if(it.isRefresh){
+//                    articleAdapter.setList(it.datas)
+//                }else{
+//                    articleAdapter.addData(it.datas)
+//                }
+                
+//                handleCallback(it, {
+//                    loadService.showSuccess()
+//                    if(mViewModel.page == 0){
+//                        articleAdapter.setList(it.datas)
+//                    }else{
+//                        articleAdapter.addData(it.datas)
+//                    }
+//
+//                })
 
             })
         }
+    }
+
+    fun initLoadData(){
+        mViewModel.getBanner()
+        mViewModel.getHomeArticle(true)
     }
 
 }

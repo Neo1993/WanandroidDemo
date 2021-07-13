@@ -7,11 +7,5 @@ data class ApiPageResponse<T>(
     var over: Boolean = false,
     var pageCount: Int = 0,
     var size: Int = 0,
-    var total: Int = 0
-)
-
-
-data class Tag(
-    var name: String = "",
-    var url: String = ""
+    var total: Int = 0,
 )

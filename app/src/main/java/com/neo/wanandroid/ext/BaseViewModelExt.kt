@@ -21,8 +21,7 @@ fun <T> BaseViewModel.request(
     return viewModelScope.launch {
         runCatching {
             if (isShowDialog) requestCallback.value = RequestCallback.onAppLoading(loadingMessage)
-//            block.invoke()
-            block()
+            block.invoke()
         }.onSuccess {
             requestCallback.value = RequestCallback.onAppSuccess(it.data)
         }.onFailure {
