@@ -4,14 +4,42 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.kingja.loadsir.core.LoadService
+import com.neo.wanandroid.model.bean.ApiPageResponse
+import com.neo.wanandroid.model.bean.ListDataUiState
+import com.neo.wanandroid.ui.widget.loadcallback.EmptyCallback
+import com.neo.wanandroid.ui.widget.loadcallback.ErrorCallback
 import com.neo.wanandroid.ui.widget.loadcallback.LoadingCallback
 import com.yanzhenjie.recyclerview.SwipeRecyclerView
 
+/**
+ * 自定义类的拓展函数
+ */
+
+/**
+ * 设置加载布局
+ */
 fun LoadService<*>.showLoading(){
     showCallback(LoadingCallback::class.java)
 }
 
-//初始化SwipeRecyclerView
+/**
+ * 设置空布局
+ */
+fun LoadService<*>.showEmpty(){
+    showCallback(EmptyCallback::class.java)
+}
+
+/**
+ * 设置错误布局
+ * @param message   错误布局显示的提示内容
+ */
+fun LoadService<*>.showError(message: String= ""){
+    showCallback(ErrorCallback::class.java)
+}
+
+/**
+ * 初始化SwipeRecyclerView
+ */
 fun SwipeRecyclerView.init(
     bindManager: RecyclerView.LayoutManager,
     bindAdapter: RecyclerView.Adapter<*>,
@@ -41,5 +69,25 @@ fun BaseQuickAdapter<*, *>.setAdapterAnimation(mode: Int) {
         animationEnable = true
         setAnimationWithDefault(BaseQuickAdapter.AnimationType.values()[mode - 1])
     }
-
 }
+
+fun <T> ListDataUiState<*>.build(isSuccess: Boolean, isRefresh: Boolean, apiPageResponse: ApiPageResponse<ArrayList<T>>, errorMsg: String = ""): ListDataUiState<*> {
+    if (isSuccess) {
+        return ListDataUiState(
+                isSuccess = true,
+                isEmpty = apiPageResponse.isEmpty(),
+                isFirstEmpty = isRefresh && apiPageResponse.isEmpty(),
+                isRefresh = isRefresh,
+                hasMore = !apiPageResponse.over,
+                dataList = apiPageResponse.datas
+        )
+    } else {
+        return ListDataUiState(
+                isSuccess = false,
+                errorMsg = errorMsg,
+                isRefresh = isRefresh,
+                dataList = arrayListOf<T>()
+        )
+    }
+}
+

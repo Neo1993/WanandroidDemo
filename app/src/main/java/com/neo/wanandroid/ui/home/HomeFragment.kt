@@ -16,9 +16,7 @@ import com.kingja.loadsir.core.LoadSir
 import com.neo.wanandroid.R
 import com.neo.wanandroid.base.BaseFragment
 import com.neo.wanandroid.base.BaseVMFragment
-import com.neo.wanandroid.ext.handleCallback
-import com.neo.wanandroid.ext.init
-import com.neo.wanandroid.ext.showLoading
+import com.neo.wanandroid.ext.*
 import com.neo.wanandroid.model.bean.ArticleResponse
 import com.neo.wanandroid.model.bean.BannerResponse
 import com.neo.wanandroid.ui.adapter.ArticleAdapter
@@ -50,7 +48,7 @@ class HomeFragment : BaseVMFragment<RequestHomeViewModel>() {
         }
 
         recyclerView.init(LinearLayoutManager(context), articleAdapter).let {
-            it.addItemDecoration(SpaceItemDecoration(0,ConvertUtils.dp2px(8f), false))
+            it.addItemDecoration(SpaceItemDecoration(0, ConvertUtils.dp2px(8f), false))
         }
         initLoadData()
         createObserver()
@@ -60,9 +58,9 @@ class HomeFragment : BaseVMFragment<RequestHomeViewModel>() {
         mViewModel.run {
             //监听轮播图请求的数据变化
             bannerData.observe(viewLifecycleOwner, Observer {
-                handleCallback(it, {dataList ->
-                    if(recyclerView.headerCount == 0){
-                        val headView = LayoutInflater.from(context).inflate(R.layout.include_banner,null).apply{
+                handleCallback(it, { dataList ->
+                    if (recyclerView.headerCount == 0) {
+                        val headView = LayoutInflater.from(context).inflate(R.layout.include_banner, null).apply {
                             findViewById<BannerViewPager<BannerResponse, HomeBannerViewHolder>>(R.id.bannerVP).apply {
                                 adapter = HomeBannerAdapter()
                                 setLifecycleRegistry(lifecycle)
@@ -78,30 +76,37 @@ class HomeFragment : BaseVMFragment<RequestHomeViewModel>() {
                 })
             })
             //监听文章数据列表的变化
-            articleList.observe(viewLifecycleOwner, Observer {
+            articleListState.observe(viewLifecycleOwner, Observer {
                 loadService.showSuccess()
                 swipeRefreshLayout.isRefreshing = false
-//                if(it.isRefresh){
-//                    articleAdapter.setList(it.datas)
-//                }else{
-//                    articleAdapter.addData(it.datas)
-//                }
-                
-//                handleCallback(it, {
-//                    loadService.showSuccess()
-//                    if(mViewModel.page == 0){
-//                        articleAdapter.setList(it.datas)
-//                    }else{
-//                        articleAdapter.addData(it.datas)
-//                    }
-//
-//                })
-
+                recyclerView.loadMoreFinish(it.isEmpty, it.hasMore)
+                if (it.isSuccess) {
+                    when {
+                        it.isFirstEmpty -> {
+                            loadService.showEmpty()
+                        }
+                        it.isRefresh -> {
+                            articleAdapter.setList(it.dataList)
+                        }
+                        else -> {
+                            articleAdapter.addData(it.dataList)
+                        }
+                    }
+                } else {
+                    when {
+                        it.isRefresh -> {
+                            loadService.showError(it.errorMsg)
+                        }
+                        else -> {
+                            recyclerView.loadMoreError(0, it.errorMsg)
+                        }
+                    }
+                }
             })
         }
     }
 
-    fun initLoadData(){
+    fun initLoadData() {
         mViewModel.getBanner()
         mViewModel.getHomeArticle(true)
     }
