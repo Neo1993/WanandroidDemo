@@ -16,8 +16,6 @@ import com.neo.wanandroid.utils.LogUtils
 
 class RequestHomeViewModel : BaseViewModel() {
     val bannerData: MutableLiveData<RequestCallback<List<BannerResponse>>> = MutableLiveData()
-//    val articleList: MutableLiveData<RequestCallback<ApiPageResponse<ArrayList<ArticleResponse>>>> = MutableLiveData()
-//    val articleList : MutableLiveData<ApiPageResponse<ArrayList<ArticleResponse>>> = MutableLiveData()
     val articleListState: MutableLiveData<ListDataUiState<ArticleResponse>> = MutableLiveData()
 
     var page : Int = 0;
@@ -26,15 +24,11 @@ class RequestHomeViewModel : BaseViewModel() {
         request({ apiService.getBanner() }, bannerData)
     }
 
-//    fun getHomeArticle(isRefresh: Boolean = false) {
-//        if (isRefresh) page = 0 else page++
-//        request({ httpRequstManager.getHomeArticleList(page) }, articleList)
-//    }
-
     fun getHomeArticle(isRefresh: Boolean = false) {
         if (isRefresh) page = 0
         request({ httpRequstManager.getHomeArticleList(page) }, {
             //请求成功
+            page++
             val listDataUiState = ListDataUiState(
                     isSuccess = true,
                     isEmpty = it.isEmpty(),

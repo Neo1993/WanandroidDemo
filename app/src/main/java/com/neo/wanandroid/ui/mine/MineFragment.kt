@@ -5,6 +5,7 @@ import com.neo.wanandroid.R
 import com.neo.wanandroid.base.BaseFragment
 import com.neo.wanandroid.base.BaseVMFragment
 import com.neo.wanandroid.vm.RequestHomeViewModel
+import kotlinx.android.synthetic.main.fragment_mine.*
 
 class MineFragment : BaseVMFragment<RequestHomeViewModel>() {
 
@@ -13,6 +14,8 @@ class MineFragment : BaseVMFragment<RequestHomeViewModel>() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        TODO("Not yet implemented")
+        loginTV.setOnClickListener {
+
+        }
     }
 }

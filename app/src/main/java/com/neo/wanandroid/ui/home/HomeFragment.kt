@@ -37,19 +37,29 @@ class HomeFragment : BaseVMFragment<RequestHomeViewModel>() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        //配置请求状态页
         loadService = LoadSir.getDefault().register(mFragmentView) {
             loadService.showLoading()
             initLoadData()
         }
         loadService.showLoading()
 
-        swipeRefreshLayout.init {
+        //初始化SwipeRefreshLayout
+//        swipeRefreshLayout.init {
+//            initLoadData()
+//        }
+        //初始化SmartRefreshLayout的下拉刷新和上拉加载
+        refreshLayout.init ({
             initLoadData()
-        }
+        },{
+            mViewModel.getHomeArticle(false)
+        })
 
+        //初始化RecyclerView
         recyclerView.init(LinearLayoutManager(context), articleAdapter).let {
             it.addItemDecoration(SpaceItemDecoration(0, ConvertUtils.dp2px(8f), false))
         }
+
         initLoadData()
         createObserver()
     }
@@ -78,8 +88,10 @@ class HomeFragment : BaseVMFragment<RequestHomeViewModel>() {
             //监听文章数据列表的变化
             articleListState.observe(viewLifecycleOwner, Observer {
                 loadService.showSuccess()
-                swipeRefreshLayout.isRefreshing = false
-                recyclerView.loadMoreFinish(it.isEmpty, it.hasMore)
+//                refreshLayout.setEnableLoadMore(it.hasMore)
+                refreshLayout.finishRefresh(it.isSuccess)
+                refreshLayout.finishLoadMore(0, it.isSuccess, !it.hasMore)
+
                 if (it.isSuccess) {
                     when {
                         it.isFirstEmpty -> {
@@ -98,7 +110,7 @@ class HomeFragment : BaseVMFragment<RequestHomeViewModel>() {
                             loadService.showError(it.errorMsg)
                         }
                         else -> {
-                            recyclerView.loadMoreError(0, it.errorMsg)
+//                            recyclerView.loadMoreError(0, it.errorMsg)
                         }
                     }
                 }

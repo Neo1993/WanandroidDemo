@@ -9,7 +9,10 @@ import com.neo.wanandroid.model.bean.ListDataUiState
 import com.neo.wanandroid.ui.widget.loadcallback.EmptyCallback
 import com.neo.wanandroid.ui.widget.loadcallback.ErrorCallback
 import com.neo.wanandroid.ui.widget.loadcallback.LoadingCallback
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.yanzhenjie.recyclerview.SwipeRecyclerView
+import kotlinx.android.synthetic.main.fragment_home.view.*
 
 /**
  * 自定义类的拓展函数
@@ -43,7 +46,7 @@ fun LoadService<*>.showError(message: String= ""){
 fun SwipeRecyclerView.init(
     bindManager: RecyclerView.LayoutManager,
     bindAdapter: RecyclerView.Adapter<*>,
-    isScroll: Boolean = true,
+    isScroll: Boolean = false,
     hasFixedSize: Boolean = true
 ): SwipeRecyclerView {
     layoutManager = bindManager;
@@ -58,6 +61,23 @@ fun SwipeRefreshLayout.init(onRefresh: () -> Unit){
 //    setOnRefreshListener {
 //        onRefresh.invoke()
 //    }
+}
+
+/**
+ * 初始化SmartRefreshLayout的下拉刷新和上拉加载
+ * @param 下拉刷新
+ * @param 上拉加载
+ */
+fun SmartRefreshLayout.init(onRefresh: () -> Unit, onLoadMore: () -> Unit){
+    setEnableLoadMore(true)
+   setOnRefreshListener{
+       onRefresh.invoke()
+   }
+
+    setOnLoadMoreListener {
+        onLoadMore.invoke()
+    }
+
 }
 
 //设置适配器的列表动画
