@@ -12,7 +12,11 @@ class DiscoverFragment : BaseVMFragment<RequestHomeViewModel>() {
         return R.layout.fragment_discover
     }
 
-    override fun initView(savedInstanceState: Bundle?) {
-        TODO("Not yet implemented")
+    override fun init(savedInstanceState: Bundle?) {
+
+    }
+
+    override fun createObserver() {
+
     }
 }

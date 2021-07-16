@@ -12,7 +12,11 @@ class SystemFragment : BaseVMFragment<RequestHomeViewModel>() {
         return R.layout.fragment_system
     }
 
-    override fun initView(savedInstanceState: Bundle?) {
-        TODO("Not yet implemented")
+    override fun init(savedInstanceState: Bundle?) {
+
+    }
+
+    override fun createObserver() {
+
     }
 }

@@ -13,20 +13,34 @@ import com.neo.wanandroid.ext.showLoadingExt
 abstract class BaseVMFragment<VM : BaseViewModel> : BaseFragment() {
     lateinit var mViewModel: VM
 
-    abstract fun initView(savedInstanceState: Bundle?)
+    /**
+     * 界面初始化处理
+     */
+    abstract fun init(savedInstanceState: Bundle?)
+
+    /**
+     * 创建观察者
+     */
+    abstract fun createObserver()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewModel = createViewModel()
         addLoadingObserve()
-        initView(savedInstanceState)
+        init(savedInstanceState)
+        createObserver()
     }
 
-
+    /**
+     * 创建ViewModel(泛型绑定)
+     */
     private fun createViewModel(): VM {
         return ViewModelProvider(this).get(getVMClazz(this))
     }
 
+    /**
+     * 添加加载弹窗观察者
+     */
     private fun addLoadingObserve() {
         mViewModel.uiLoadingChange.showDialog.observe(viewLifecycleOwner, Observer {
             showLoading(it)
@@ -37,10 +51,16 @@ abstract class BaseVMFragment<VM : BaseViewModel> : BaseFragment() {
         })
     }
 
+    /**
+     * 显示加载弹窗
+     */
     override fun showLoading(loadingMessage: String) {
         showLoadingExt(loadingMessage)
     }
 
+    /**
+     * 关闭加载弹窗
+     */
     override fun dissmissLoading() {
         dismissLoadingExt()
     }

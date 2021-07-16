@@ -13,9 +13,13 @@ class MineFragment : BaseVMFragment<RequestHomeViewModel>() {
         return R.layout.fragment_mine
     }
 
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun init(savedInstanceState: Bundle?) {
         loginTV.setOnClickListener {
 
         }
+    }
+
+    override fun createObserver() {
+
     }
 }

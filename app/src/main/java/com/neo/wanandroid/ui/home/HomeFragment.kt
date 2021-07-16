@@ -36,7 +36,7 @@ class HomeFragment : BaseVMFragment<RequestHomeViewModel>() {
         return R.layout.fragment_home
     }
 
-    override fun initView(savedInstanceState: Bundle?) {
+    override fun init(savedInstanceState: Bundle?) {
         //配置请求状态页
         loadService = LoadSir.getDefault().register(mFragmentView) {
             loadService.showLoading()
@@ -61,10 +61,9 @@ class HomeFragment : BaseVMFragment<RequestHomeViewModel>() {
         }
 
         initLoadData()
-        createObserver()
     }
 
-    fun createObserver() {
+    override fun createObserver() {
         mViewModel.run {
             //监听轮播图请求的数据变化
             bannerData.observe(viewLifecycleOwner, Observer {

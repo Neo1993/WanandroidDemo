@@ -11,6 +11,8 @@ abstract class BaseActivity : AppCompatActivity(){
         setContentView(getLayoutId())
     }
 
+    abstract fun showLoading(loadingMessage : String  = "正在加载中")
+    abstract fun dissmissLoading()
     @LayoutRes
     abstract fun getLayoutId() : Int
 }
