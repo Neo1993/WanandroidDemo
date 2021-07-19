@@ -1,5 +1,6 @@
 package com.neo.wanandroid.base
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -26,6 +27,7 @@ abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(getLayoutId())
         mViewModel = createViewModel()
         addLoadingObserve()

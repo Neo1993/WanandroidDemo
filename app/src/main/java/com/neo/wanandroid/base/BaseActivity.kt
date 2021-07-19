@@ -6,13 +6,14 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 
 abstract class BaseActivity : AppCompatActivity(){
+    @LayoutRes
+    abstract fun getLayoutId() : Int
+    abstract fun showLoading(loadingMessage : String  = "正在加载中")
+    abstract fun dissmissLoading()
+
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
         setContentView(getLayoutId())
     }
 
-    abstract fun showLoading(loadingMessage : String  = "正在加载中")
-    abstract fun dissmissLoading()
-    @LayoutRes
-    abstract fun getLayoutId() : Int
 }
