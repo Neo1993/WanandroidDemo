@@ -1,5 +1,6 @@
 package com.neo.wanandroid.ui.mine
 
+import android.content.Intent
 import android.os.Bundle
 import com.neo.wanandroid.R
 import com.neo.wanandroid.base.BaseFragment
@@ -15,7 +16,7 @@ class MineFragment : BaseVMFragment<RequestHomeViewModel>() {
 
     override fun init(savedInstanceState: Bundle?) {
         loginTV.setOnClickListener {
-
+            startActivity(Intent(activity, LoginActivity::class.java))
         }
     }
 

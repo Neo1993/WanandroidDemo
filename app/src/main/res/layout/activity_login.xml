@@ -1,13 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="vm"
+            type="com.neo.wanandroid.vm.RequestLoginVM" />
+
+        <variable
+            name="viewClick"
+            type="com.neo.wanandroid.ui.mine.LoginActivity.ViewClick" />
+
+    </data>
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_toolbar"/>
 
     <com.gcssloop.widget.RCRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:round_corner="5dp"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/accountET"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:hint="账号"
+            android:padding="10dp"
+            android:text="@={vm.username}"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:background="@null"/>
+
+        <ImageView
+            android:id="@+id/clearIV"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:onClick="@{()->viewClick.clear()}"
+            android:src="@drawable/ic_clear"
+            android:layout_marginHorizontal="6dp" />
+
 
     </com.gcssloop.widget.RCRelativeLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+
+</layout>

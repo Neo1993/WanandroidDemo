@@ -3,6 +3,7 @@ package com.neo.wanandroid.network
 import com.neo.wanandroid.model.bean.ApiPageResponse
 import com.neo.wanandroid.model.bean.ArticleResponse
 import com.neo.wanandroid.model.bean.BannerResponse
+import com.neo.wanandroid.model.bean.User
 import retrofit2.http.*
 
 interface ApiService {
@@ -29,8 +30,10 @@ interface ApiService {
     suspend fun getHomeArticleList(@Path("page") page: Int) : ApiResponse<ApiPageResponse<ArrayList<ArticleResponse>>>
 
     @FormUrlEncoded
-    @POST("user/register")
+    @POST("/user/register")
     suspend fun register(@Field("username") username: String, @Field("password") password: String, @Field("repassword") repassword: String) : ApiResponse<Any>
 
+    @POST("/user/login")
+    suspend fun login(@Field("username") username: String, @Field("password") password: String) : ApiResponse<User>
 
 }

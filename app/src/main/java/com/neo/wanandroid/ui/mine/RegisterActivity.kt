@@ -7,14 +7,21 @@ import com.neo.wanandroid.vm.RequestRegisterVM
 
 class RegisterActivity: BaseVMActivity<RequestRegisterVM>() {
     override fun init(savedInstanceState: Bundle?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun createObserver() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_register
     }
+
+    inner class ViewClick {
+        fun clear() {
+            mViewModel.username.set("")
+        }
+    }
+
 }

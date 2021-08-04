@@ -17,4 +17,11 @@ class LoginActivity : BaseVMActivity<RequestLoginVM>() {
     override fun getLayoutId(): Int {
         return R.layout.activity_login
     }
+
+    inner class ViewClick{
+        fun clear(){
+            mViewModel.username.set("")
+        }
+    }
+
 }
