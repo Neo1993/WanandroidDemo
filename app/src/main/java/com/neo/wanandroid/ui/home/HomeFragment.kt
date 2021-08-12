@@ -1,5 +1,6 @@
 package com.neo.wanandroid.ui.home
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.blankj.utilcode.util.ConvertUtils
+import com.blankj.utilcode.util.DeviceUtils
+import com.blankj.utilcode.util.ScreenUtils
 import com.kingja.loadsir.LoadSirUtil
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
@@ -23,6 +26,9 @@ import com.neo.wanandroid.ui.adapter.ArticleAdapter
 import com.neo.wanandroid.ui.widget.loadcallback.LoadingCallback
 import com.neo.wanandroid.ui.widget.recyclerview.SpaceItemDecoration
 import com.neo.wanandroid.vm.RequestHomeViewModel
+import com.yanzhenjie.recyclerview.SwipeMenu
+import com.yanzhenjie.recyclerview.SwipeMenuCreator
+import com.yanzhenjie.recyclerview.SwipeMenuItem
 import com.zhpan.bannerview.BannerViewPager
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.include_banner.view.*
@@ -55,12 +61,26 @@ class HomeFragment : BaseVMFragment<RequestHomeViewModel>() {
             mViewModel.getHomeArticle(false)
         })
 
+//        val swipeMenuCreator = object : SwipeMenuCreator{
+//            override fun onCreateMenu(leftMenu: SwipeMenu?, rightMenu: SwipeMenu?, position: Int) {
+//                val deleteItem = SwipeMenuItem(context)
+//                deleteItem.setBackgroundColor(Color.RED)
+//                          .setText("删除")
+//                          .setHeight(ViewGroup.LayoutParams.MATCH_PARENT)
+//                          .setWidth(200)
+//                rightMenu?.addMenuItem(deleteItem)
+//            }
+//        }
+//
+//        recyclerView.setSwipeMenuCreator(swipeMenuCreator)
+
         //初始化RecyclerView
         recyclerView.init(LinearLayoutManager(context), articleAdapter).let {
             it.addItemDecoration(SpaceItemDecoration(0, ConvertUtils.dp2px(8f), false))
         }
 
         initLoadData()
+
     }
 
     override fun createObserver() {

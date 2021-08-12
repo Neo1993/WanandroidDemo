@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-android-extensions'          //插件绑定视图
+    id 'kotlin-kapt'
 }
 
 android {
@@ -101,8 +102,5 @@ dependencies {
     implementation  'com.scwang.smart:refresh-layout-kernel:2.0.3'      //核心必须依赖
     implementation  'com.scwang.smart:refresh-header-classics:2.0.3'    //经典刷新头
     implementation  'com.scwang.smart:refresh-footer-classics:2.0.3'    //经典加载
-
-    //圆角布局
-    implementation 'com.gcssloop.widget:rclayout:1.8.1'
 
 }

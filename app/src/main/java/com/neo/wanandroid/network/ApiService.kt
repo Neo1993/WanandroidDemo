@@ -33,6 +33,7 @@ interface ApiService {
     @POST("/user/register")
     suspend fun register(@Field("username") username: String, @Field("password") password: String, @Field("repassword") repassword: String) : ApiResponse<Any>
 
+    @FormUrlEncoded
     @POST("/user/login")
     suspend fun login(@Field("username") username: String, @Field("password") password: String) : ApiResponse<User>
 

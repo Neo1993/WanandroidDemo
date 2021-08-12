@@ -13,6 +13,11 @@ import com.neo.wanandroid.ext.showLoadingExt
  * MVVM项目中Activity的基类
  */
 abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity() {
+    /**
+     * 是否需要使用DataBinding 供子类BaseVmDbActivity修改
+     */
+    private var isUseDB = false
+
     lateinit var mViewModel: VM
 
     /**
@@ -28,7 +33,11 @@ abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        setContentView(getLayoutId())
+        if(isUseDB){
+            initDataBind()
+        }else{
+            setContentView(getLayoutId())
+        }
         mViewModel = createViewModel()
         addLoadingObserve()
         init(savedInstanceState)
@@ -69,4 +78,15 @@ abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity() {
         dismissLoadingExt()
     }
 
+    /**
+     * 是否使用DataBinding
+     */
+    fun useDataBinding(isUseDB: Boolean){
+        this.isUseDB = isUseDB
+    }
+
+    /**
+     * 供子类BaseVmDbActivity 初始化Databinding操作
+     */
+    open fun initDataBind(){}
 }
