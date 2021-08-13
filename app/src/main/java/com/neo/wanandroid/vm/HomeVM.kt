@@ -14,7 +14,7 @@ import com.neo.wanandroid.network.RequestCallback
 import com.neo.wanandroid.network.apiService
 import com.neo.wanandroid.utils.LogUtils
 
-class RequestHomeViewModel : BaseViewModel() {
+class HomeVM : BaseViewModel() {
     val bannerData: MutableLiveData<RequestCallback<List<BannerResponse>>> = MutableLiveData()
     val articleListState: MutableLiveData<ListDataUiState<ArticleResponse>> = MutableLiveData()
 

@@ -3,12 +3,11 @@ package com.neo.wanandroid.ui.mine
 import android.content.Intent
 import android.os.Bundle
 import com.neo.wanandroid.R
-import com.neo.wanandroid.base.BaseFragment
 import com.neo.wanandroid.base.BaseVMFragment
-import com.neo.wanandroid.vm.RequestHomeViewModel
+import com.neo.wanandroid.vm.HomeVM
 import kotlinx.android.synthetic.main.fragment_mine.*
 
-class MineFragment : BaseVMFragment<RequestHomeViewModel>() {
+class MineFragment : BaseVMFragment<HomeVM>() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_mine

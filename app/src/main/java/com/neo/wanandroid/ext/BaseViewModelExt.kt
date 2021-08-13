@@ -2,6 +2,7 @@ package com.neo.wanandroid.ext
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.blankj.utilcode.util.ToastUtils
 import com.neo.wanandroid.base.BaseVMActivity
 import com.neo.wanandroid.base.BaseVMFragment
 import com.neo.wanandroid.base.BaseViewModel
@@ -54,8 +55,10 @@ fun <T> BaseViewModel.request(
                 it.message?.loge()
                 //失败回调
                 error(ExceptionHandle.handleException(it))
+                if(isShowDialog){
+                    ToastUtils.showShort(it.message)
+                }
             }
-            success(apiResponse.getResponseData())
         }.onFailure {
             //网络请求异常 关闭弹窗
             uiLoadingChange.dismissDialog.postValue(true)
@@ -63,6 +66,9 @@ fun <T> BaseViewModel.request(
             it.message?.loge()
             //失败回调
             error(ExceptionHandle.handleException(it))
+            if(isShowDialog){
+                ToastUtils.showShort(it.message)
+            }
         }
     }
 }

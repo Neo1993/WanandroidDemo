@@ -1,54 +1,70 @@
 package com.neo.wanandroid
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomnavigation.LabelVisibilityMode
-import com.neo.wanandroid.base.BaseActivity
+import com.blankj.utilcode.util.ToastUtils
+import com.neo.wanandroid.base.BaseVmDbActivity
+import com.neo.wanandroid.databinding.ActivityMainBinding
 import com.neo.wanandroid.ui.discover.DiscoverFragment
 import com.neo.wanandroid.ui.guide.GuideFragment
 import com.neo.wanandroid.ui.home.HomeFragment
 import com.neo.wanandroid.ui.mine.MineFragment
 import com.neo.wanandroid.ui.system.SystemFragment
+import com.neo.wanandroid.vm.MainVM
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseVmDbActivity<MainVM, ActivityMainBinding>() {
+    private var exitTime = 0L
     private lateinit var fragments : Map<Int, Fragment>
+    lateinit var homeFragment: HomeFragment
+    lateinit var systemFragment: SystemFragment
+    lateinit var discoverFragment: DiscoverFragment
+    lateinit var guideFragment: GuideFragment
+    lateinit var mineFragment: MineFragment
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        initView()
-    }
+    override fun init(savedInstanceState: Bundle?) {
+        homeFragment = HomeFragment::class.java.newInstance()
+        systemFragment = SystemFragment::class.java.newInstance()
+        discoverFragment = DiscoverFragment::class.java.newInstance()
+        guideFragment = GuideFragment::class.java.newInstance()
+        mineFragment = MineFragment::class.java.newInstance()
 
-//    override fun getLayoutId(): Int {
-//        return R.layout.activity_main
-//    }
-
-    private fun initView(){
         fragments = mapOf(
-                R.id.home to HomeFragment::class.java.newInstance(),
-                R.id.system to SystemFragment::class.java.newInstance(),
-                R.id.discovery to DiscoverFragment::class.java.newInstance(),
-                R.id.navigation to GuideFragment::class.java.newInstance(),
-                R.id.mine to MineFragment::class.java.newInstance()
+                R.id.home to homeFragment,
+                R.id.system to systemFragment,
+                R.id.discovery to discoverFragment,
+                R.id.navigation to guideFragment,
+                R.id.mine to mineFragment
         )
 
-//        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottomNavigationView.setOnNavigationItemSelectedListener{
             showFragment(it.itemId)
             true
         }
 
         showFragment(R.id.home)
+
+        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if(System.currentTimeMillis() - exitTime > 2000L){
+                    ToastUtils.showShort("再按一次退出程序")
+                    exitTime = System.currentTimeMillis()
+                }else{
+                    finish()
+                }
+            }
+
+        })
     }
 
+    override fun createObserver() {
 
-//    val mOnNavigationItemSelectedListener : BottomNavigationView.OnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener{
-//        showFragment(it.itemId)
-//        true
-//    }
+    }
+
+    override fun getLayoutId(): Int {
+        return R.layout.activity_main
+    }
 
     fun showFragment(menuId : Int){
         val currentFragment = supportFragmentManager.fragments.find {

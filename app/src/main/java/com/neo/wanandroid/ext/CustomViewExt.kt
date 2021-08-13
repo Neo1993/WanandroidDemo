@@ -1,5 +1,7 @@
 package com.neo.wanandroid.ext
 
+import android.app.Activity
+import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -111,3 +113,19 @@ fun <T> ListDataUiState<*>.build(isSuccess: Boolean, isRefresh: Boolean, apiPage
     }
 }
 
+/**
+ * 隐藏软键盘
+ */
+fun hideSoftKeyboard(activity: Activity?) {
+    activity?.let { act ->
+        val view = act.currentFocus
+        view?.let {
+            val inputMethodManager =
+                    act.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                    view.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS
+            )
+        }
+    }
+}
