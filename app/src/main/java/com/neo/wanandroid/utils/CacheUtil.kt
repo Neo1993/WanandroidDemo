@@ -24,12 +24,8 @@ object CacheUtil {
      * 设置用户信息
      */
     fun setUser(userResponse: User?) {
-        if (userResponse == null) {
-            userKV.encode("user", "")
-            setIsLogin(false)
-        } else {
+        if (userResponse != null) {
             userKV.encode("user", Gson().toJson(userResponse))
-            setIsLogin(true)
         }
     }
 
@@ -37,14 +33,12 @@ object CacheUtil {
      * 是否已经登录
      */
     fun isLogin(): Boolean {
-        return userKV.decodeBool("login", false)
+        val currentUser = getUser()
+        return currentUser != null
     }
 
-    /**
-     * 设置是否已经登录
-     */
-    fun setIsLogin(isLogin: Boolean) {
-        userKV.encode("login", isLogin)
+    fun removeUser(){
+        userKV.clearAll()
     }
 
 }

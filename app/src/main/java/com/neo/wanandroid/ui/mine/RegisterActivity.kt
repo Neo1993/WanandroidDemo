@@ -6,6 +6,7 @@ import android.widget.CompoundButton
 import com.blankj.utilcode.util.ToastUtils
 import com.neo.wanandroid.MainActivity
 import com.neo.wanandroid.R
+import com.neo.wanandroid.app.appVM
 import com.neo.wanandroid.base.BaseVmDbActivity
 import com.neo.wanandroid.databinding.ActivityRegisterBinding
 import com.neo.wanandroid.ext.showMessage
@@ -22,11 +23,11 @@ class RegisterActivity : BaseVmDbActivity<RegisterVM, ActivityRegisterBinding>()
             mViewModel.login()
         }
 
-        mViewModel.user.observe(this,){
-            ToastUtils.showShort("登录成功")
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(intent)
+        appVM.currentUser.observe(this) { user ->
+            if (user != null) {
+                ToastUtils.showShort("注册成功")
+                finish()
+            }
         }
 
     }

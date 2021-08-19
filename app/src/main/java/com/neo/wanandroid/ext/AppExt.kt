@@ -1,6 +1,7 @@
 package com.neo.wanandroid.ext
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 
@@ -25,4 +26,29 @@ fun AppCompatActivity.showMessage(
                 negativeAction.invoke()
             }
         }
+}
+
+fun Fragment.showMessage(
+        message: String,
+        title: String = "温馨提示",
+        positiveButtonText: String = "确定",
+        positiveAction: () -> Unit = {},
+        negativeButtonText: String = "",
+        negativeAction: () -> Unit = {}
+) {
+    activity?.let {
+        MaterialDialog(it)
+                .cancelable(true)
+                .lifecycleOwner(this)
+                .show {
+                    title(text = title)
+                    message(text = message)
+                    positiveButton(text = positiveButtonText) {
+                        positiveAction.invoke()
+                    }
+                    negativeButton(text = negativeButtonText) {
+                        negativeAction.invoke()
+                    }
+                }
+    }
 }

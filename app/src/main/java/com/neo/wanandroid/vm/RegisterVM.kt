@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.ToastUtils
+import com.neo.wanandroid.app.appVM
 import com.neo.wanandroid.base.BaseViewModel
 import com.neo.wanandroid.ext.request
 import com.neo.wanandroid.model.bean.User
@@ -12,7 +13,6 @@ import com.neo.wanandroid.network.apiService
 import com.neo.wanandroid.utils.CacheUtil
 
 class RegisterVM: BaseViewModel() {
-    var user: MutableLiveData<User> = MutableLiveData()
     var regisetResult: MutableLiveData<Any> = MutableLiveData()
     var username = ObservableField<String>()
     var password = ObservableField<String>()
@@ -45,7 +45,7 @@ class RegisterVM: BaseViewModel() {
     fun login(){
         request({apiService.login(username.get().toString(), password.get().toString())}, {
             CacheUtil.setUser(it)
-            user.value = it
+            appVM.currentUser.value = it
         },isShowDialog = true)
     }
 
