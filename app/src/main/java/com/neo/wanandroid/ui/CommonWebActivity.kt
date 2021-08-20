@@ -14,7 +14,7 @@ class CommonWebActivity : BaseVmDbActivity<CommonWebVM, ActivityCommonWebBinding
     }
 
     override fun init(savedInstanceState: Bundle?) {
-        TODO("Not yet implemented")
+        setSupportActionBar(toolbar)
     }
 
     override fun createObserver() {
@@ -22,8 +22,8 @@ class CommonWebActivity : BaseVmDbActivity<CommonWebVM, ActivityCommonWebBinding
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-
-        return super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.web_menu, menu)
+        return true
     }
 
 }

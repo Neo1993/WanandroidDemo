@@ -24,6 +24,7 @@
 
         <activity android:name=".ui.mine.LoginActivity"/>
         <activity android:name=".ui.mine.RegisterActivity" />
+        <activity android:name=".ui.CommonWebActivity" />
     </application>
 
     <meta-data

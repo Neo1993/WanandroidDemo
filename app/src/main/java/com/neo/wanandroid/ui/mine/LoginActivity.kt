@@ -18,6 +18,8 @@ class LoginActivity : BaseVmDbActivity<LoginVM, ActivityLoginBinding>() {
     override fun init(savedInstanceState: Bundle?) {
         mDatabind.vm = mViewModel;
         mDatabind.viewClick = ViewClick()
+
+
     }
 
     override fun createObserver() {
