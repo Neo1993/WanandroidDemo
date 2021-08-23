@@ -106,4 +106,7 @@ dependencies {
     //微信开源项目，替代SP
     implementation 'com.tencent:mmkv:1.0.22'
 
+    //AgentWeb
+    implementation 'com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx'
+
 }

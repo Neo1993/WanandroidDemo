@@ -12,6 +12,7 @@ import com.neo.wanandroid.R
 import com.neo.wanandroid.base.BaseVMFragment
 import com.neo.wanandroid.ext.*
 import com.neo.wanandroid.model.bean.BannerResponse
+import com.neo.wanandroid.ui.CommonWebActivity
 import com.neo.wanandroid.ui.adapter.ArticleAdapter
 import com.neo.wanandroid.ui.widget.recyclerview.SpaceItemDecoration
 import com.neo.wanandroid.vm.HomeVM
@@ -45,22 +46,20 @@ class HomeFragment : BaseVMFragment<HomeVM>() {
             mViewModel.getHomeArticle(false)
         })
 
-//        val swipeMenuCreator = object : SwipeMenuCreator{
-//            override fun onCreateMenu(leftMenu: SwipeMenu?, rightMenu: SwipeMenu?, position: Int) {
-//                val deleteItem = SwipeMenuItem(context)
-//                deleteItem.setBackgroundColor(Color.RED)
-//                          .setText("删除")
-//                          .setHeight(ViewGroup.LayoutParams.MATCH_PARENT)
-//                          .setWidth(200)
-//                rightMenu?.addMenuItem(deleteItem)
-//            }
-//        }
-//
-//        recyclerView.setSwipeMenuCreator(swipeMenuCreator)
 
         //初始化RecyclerView
         recyclerView.init(LinearLayoutManager(context), articleAdapter).let {
             it.addItemDecoration(SpaceItemDecoration(0, ConvertUtils.dp2px(8f), false))
+        }
+
+        articleAdapter.setOnItemClickListener { adapter, view, position ->
+            val data = articleAdapter.data.get(position - recyclerView.headerCount)
+            val title = data.title
+            val webUrl = data.link
+            var bundle = Bundle()
+            bundle.putString("webUrl", webUrl)
+            bundle.putString("title", title)
+            context?.let { CommonWebActivity.go(it, bundle) }
         }
 
         initLoadData()

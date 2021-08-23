@@ -2,17 +2,18 @@ package com.neo.wanandroid.ext
 
 import android.app.Activity
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.kingja.loadsir.core.LoadService
+import com.neo.wanandroid.R
 import com.neo.wanandroid.model.bean.ApiPageResponse
 import com.neo.wanandroid.model.bean.ListDataUiState
 import com.neo.wanandroid.ui.widget.loadcallback.EmptyCallback
 import com.neo.wanandroid.ui.widget.loadcallback.ErrorCallback
 import com.neo.wanandroid.ui.widget.loadcallback.LoadingCallback
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
-import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.yanzhenjie.recyclerview.SwipeRecyclerView
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
@@ -112,6 +113,21 @@ fun <T> ListDataUiState<*>.build(isSuccess: Boolean, isRefresh: Boolean, apiPage
         )
     }
 }
+
+/**
+ * 初始化拥有返回键的toolbar
+ */
+fun Toolbar.initClose(title: String = "",
+                      backImgId: Int = R.drawable.ic_back,
+                      onBack: (toolbar: Toolbar) -> Unit
+) {
+    this.title = title
+    setNavigationIcon(backImgId)
+    setNavigationOnClickListener {
+        onBack(this)
+    }
+}
+
 
 /**
  * 隐藏软键盘
