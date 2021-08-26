@@ -67,12 +67,13 @@ class ArticleAdapter(dataList: MutableList<ArticleResponse>) :
                         helper.setGone(R.id.item_home_new, true)
                     }
                 }
-//                helper.getView<CollectView>(R.id.item_home_collect)
-//                    .setOnCollectViewClickListener(object : CollectView.OnCollectViewClickListener {
-//                        override fun onClick(v: CollectView) {
-//                            collectAction.invoke(item, v, helper.adapterPosition)
-//                        }
-//                    })
+
+                helper.getView<CollectView>(R.id.item_home_collect)
+                    .setOnCollectViewClickListener(object : CollectView.OnCollectViewClickListener {
+                        override fun onClick(v: CollectView) {
+                            collectAction.invoke(item, v, helper.adapterPosition)
+                        }
+                    })
             }
             Project -> {
                 //项目布局的赋值
@@ -109,13 +110,22 @@ class ArticleAdapter(dataList: MutableList<ArticleResponse>) :
                         .transition(DrawableTransitionOptions.withCrossFade(500))
                         .into(helper.getView(R.id.item_project_imageview))
                 }
-//                helper.getView<CollectView>(R.id.item_project_collect)
-//                    .setOnCollectViewClickListener(object : CollectView.OnCollectViewClickListener {
-//                        override fun onClick(v: CollectView) {
-//                            collectAction.invoke(item, v, helper.adapterPosition)
-//                        }
-//                    })
+                helper.getView<CollectView>(R.id.item_project_collect)
+                    .setOnCollectViewClickListener(object : CollectView.OnCollectViewClickListener {
+                        override fun onClick(v: CollectView) {
+                            collectAction.invoke(item, v, helper.adapterPosition)
+                        }
+                    })
             }
         }
     }
+
+    private var collectAction:(item: ArticleResponse, v: CollectView, position: Int) -> Unit = {
+        articleResponse: ArticleResponse, v: CollectView, position: Int ->
+    }
+
+    fun setCollectClick(collectAction: (item: ArticleResponse, v: CollectView, position: Int) -> Unit){
+        this.collectAction = collectAction
+    }
+
 }

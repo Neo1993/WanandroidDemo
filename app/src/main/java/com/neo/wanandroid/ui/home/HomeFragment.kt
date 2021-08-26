@@ -52,18 +52,22 @@ class HomeFragment : BaseVMFragment<HomeVM>() {
             it.addItemDecoration(SpaceItemDecoration(0, ConvertUtils.dp2px(8f), false))
         }
 
-        articleAdapter.setOnItemClickListener { adapter, view, position ->
-            val data = articleAdapter.data.get(position - recyclerView.headerCount)
-            val title = data.title
-            val webUrl = data.link
-            var bundle = Bundle()
-            bundle.putString("webUrl", webUrl)
-            bundle.putString("title", title)
-            context?.let { CommonWebActivity.go(it, bundle) }
+        articleAdapter.apply {
+            setCollectClick { item, v, position ->
+
+            }
+
+            setOnItemClickListener { adapter, view, position ->
+                val data = articleAdapter.data.get(position - this@HomeFragment.recyclerView.headerCount)
+                val title = data.title
+                val webUrl = data.link
+                var bundle = Bundle()
+                bundle.putString("webUrl", webUrl)
+                bundle.putString("title", title)
+                context?.let { CommonWebActivity.go(it, bundle) }
+            }
         }
-
         initLoadData()
-
     }
 
     override fun createObserver() {

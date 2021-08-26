@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
-    android:foreground="?android:attr/selectableItemBackground"
+    android:foreground="?attr/selectableItemBackground"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="4dp"
     app:cardElevation="4dp">
@@ -28,7 +28,6 @@
                 android:id="@+id/item_home_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_imgselector"
                 android:textColor="@color/colorBlack666"
                 android:textSize="13dp"
                 tools:text="有何高见" />

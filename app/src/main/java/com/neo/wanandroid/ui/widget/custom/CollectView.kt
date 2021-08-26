@@ -31,7 +31,6 @@ class CollectView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             MotionEvent.ACTION_UP ->{
                 //震动一下
                 VibrateUtils.vibrate(40)
-
             }
         }
         return false
