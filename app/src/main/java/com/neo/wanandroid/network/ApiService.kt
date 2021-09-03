@@ -29,12 +29,30 @@ interface ApiService {
     @GET("/article/list/{page}/json")
     suspend fun getHomeArticleList(@Path("page") page: Int) : ApiResponse<ApiPageResponse<ArrayList<ArticleResponse>>>
 
+    /**
+     * 注册
+     */
     @FormUrlEncoded
     @POST("/user/register")
     suspend fun register(@Field("username") username: String, @Field("password") password: String, @Field("repassword") repassword: String) : ApiResponse<Any>
 
+    /**
+     * 登录
+     */
     @FormUrlEncoded
     @POST("/user/login")
     suspend fun login(@Field("username") username: String, @Field("password") password: String) : ApiResponse<User>
+
+    /**
+     * 收藏文章
+     */
+    @POST("lg/collect/{id}/json")
+    suspend fun collect(@Path("id") id: Int): ApiResponse<Any>
+
+    /**
+     * 取消收藏文章
+     */
+    @POST("lg/uncollect_originId/{id}/json")
+    suspend fun uncollect(@Path("id") id: Int): ApiResponse<Any>
 
 }

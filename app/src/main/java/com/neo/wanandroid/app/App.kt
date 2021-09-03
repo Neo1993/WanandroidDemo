@@ -4,9 +4,11 @@ import android.content.Intent
 import android.os.Process
 import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModelProvider
+import com.alibaba.android.arouter.launcher.ARouter
 import com.kingja.loadsir.core.LoadSir
 import com.neo.wanandroid.MainActivity
 import com.neo.wanandroid.R
+import com.neo.wanandroid.app.event.EventVM
 import com.neo.wanandroid.base.BaseApp
 import com.neo.wanandroid.ext.getVMClazz
 import com.neo.wanandroid.ui.widget.loadcallback.EmptyCallback
@@ -20,11 +22,14 @@ import com.tencent.mmkv.MMKV
 import java.time.Instant
 
 val appVM by lazy { App.appVMInstance }
+val eventVM by lazy { App.eventVM }
+
 
 class App : BaseApp() {
     companion object {
         lateinit var instance: App
         lateinit var appVMInstance: AppVM
+        lateinit var eventVM: EventVM
 
         init {
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
@@ -44,6 +49,7 @@ class App : BaseApp() {
         MMKV.initialize(filesDir.absolutePath + "/mmkv")
         instance = this;
         appVMInstance = getAppViewModelProvider().get(AppVM::class.java)
+        eventVM = EventVM()
 
         //创建服务用于捕获崩溃异常
         Thread.setDefaultUncaughtExceptionHandler { t, e ->
@@ -57,6 +63,9 @@ class App : BaseApp() {
             .addCallback(EmptyCallback())               //空数据提示页
             .setDefaultCallback(LoadingCallback::class.java)
             .commit()
+
+        ARouter.init(this)
+
     }
 
     /**

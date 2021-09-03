@@ -2,9 +2,9 @@ package com.neo.wanandroid.model.bean;
 
 data class User(
     var admin: Boolean,
-    var chapterTops: List<Any>,
+    var chapterTops: List<String>,
     var coinCount: Int,
-    var collectIds: List<Any>,
+    var collectIds: List<String>,
     var email: String,
     var icon: String,
     var id: Int,

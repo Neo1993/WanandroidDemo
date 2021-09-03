@@ -4,32 +4,48 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.KeyEvent
-import android.view.Menu
-import android.view.MenuItem
-import android.view.ViewGroup
+import android.view.*
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
+import com.alibaba.android.arouter.facade.annotation.Autowired
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.blankj.utilcode.util.VibrateUtils
 import com.just.agentweb.AgentWeb
 import com.neo.wanandroid.R
+import com.neo.wanandroid.app.constant.PATH_ACTIVITY_COMMONWEB
+import com.neo.wanandroid.app.eventVM
 import com.neo.wanandroid.base.BaseVmDbActivity
 import com.neo.wanandroid.databinding.ActivityCommonWebBinding
 import com.neo.wanandroid.ext.initClose
+import com.neo.wanandroid.ext.showMessage
 import com.neo.wanandroid.vm.CommonWebVM
-import kotlinx.android.synthetic.main.activity_common_web.*
-import kotlinx.android.synthetic.main.include_toolbar.*
+import com.neo.wanandroid.vm.RequestCollectVM
 
+@Route(path = PATH_ACTIVITY_COMMONWEB)
 class CommonWebActivity : BaseVmDbActivity<CommonWebVM, ActivityCommonWebBinding>() {
     lateinit var preWeb: AgentWeb.PreAgentWeb
     lateinit var mAgentWeb: AgentWeb
 
-    companion object {
-        fun go(context: Context, bundle: Bundle){
-            val intent = Intent(context, CommonWebActivity::class.java)
-            intent.putExtras(bundle)
-            context.startActivity(intent)
-        }
+    private val requestCollectVM: RequestCollectVM = RequestCollectVM()
 
-    }
+    @Autowired
+    var id: Int = 0
+    @Autowired
+    var title: String = ""
+    @Autowired(name = "url")
+    var webUrl: String = ""
+    @Autowired
+    var isCollect: Boolean = false
+
+
+//    companion object {
+//        fun go(context: Context, bundle: Bundle){
+//            val intent = Intent(context, CommonWebActivity::class.java)
+//            intent.putExtras(bundle)
+//            context.startActivity(intent)
+//        }
+//
+//    }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_common_web
@@ -41,11 +57,27 @@ class CommonWebActivity : BaseVmDbActivity<CommonWebVM, ActivityCommonWebBinding
             setHomeButtonEnabled(true)
             setDisplayHomeAsUpEnabled(true)
         }
-        mViewModel.showTitle = intent.extras?.getString("title").toString()
+
+        mViewModel.let {
+            it.id = id
+            it.showTitle = title
+            it.url = webUrl
+            it.isCollect = isCollect
+
+            window.invalidatePanelMenu(Window.FEATURE_OPTIONS_PANEL)
+            invalidateOptionsMenu()
+//            intent.extras?.let {
+//                id = it.getInt("id", 0)
+//                showTitle = it.getString("title").toString()
+//                url = it.getString("webUrl").toString()
+//            }
+        }
+//        mViewModel.id = intent.extras?.getInt("id", 0)!!
+//        mViewModel.showTitle = intent.extras?.getString("title").toString()
+//        mViewModel.url = intent.extras?.getString("webUrl").toString()
         mDatabind.includeToolbar.toolbar.initClose(mViewModel.showTitle){
             finish()
         }
-        mViewModel.url = intent.extras?.getString("webUrl").toString()
         preWeb = AgentWeb.with(this)
                 .setAgentWebParent(mDatabind.containerFL, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator()
@@ -57,12 +89,30 @@ class CommonWebActivity : BaseVmDbActivity<CommonWebVM, ActivityCommonWebBinding
     }
 
     override fun createObserver() {
+        eventVM.collectState.observe(this, {
+            if(it.isSuccess){
+                mViewModel.isCollect = it.isCollect;
+                window.invalidatePanelMenu(Window.FEATURE_OPTIONS_PANEL)
+                invalidateOptionsMenu()
+            }else{
+                showMessage(it.errorMsg)
+            }
 
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.web_menu, menu)
         return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        if(mViewModel.isCollect){
+            menu?.findItem(R.id.web_collect)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_collected)
+        }else{
+            menu?.findItem(R.id.web_collect)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_collect)
+        }
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -79,7 +129,15 @@ class CommonWebActivity : BaseVmDbActivity<CommonWebVM, ActivityCommonWebBinding
                 //刷新网页
                 mAgentWeb?.urlLoader?.reload()
             }
-            R.id.web_collect -> {}
+            R.id.web_collect -> {
+                //点击收藏 震动一下
+                VibrateUtils.vibrate(40)
+                if(mViewModel.isCollect){
+                    requestCollectVM.uncollect(mViewModel.id)
+                }else{
+                    requestCollectVM.collect(mViewModel.id)
+                }
+            }
             R.id.web_liulanqi -> {
                 //用浏览器打开
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(mViewModel.url)))
