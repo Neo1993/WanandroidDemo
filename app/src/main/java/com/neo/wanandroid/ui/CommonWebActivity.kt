@@ -1,6 +1,5 @@
 package com.neo.wanandroid.ui
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -28,24 +27,19 @@ class CommonWebActivity : BaseVmDbActivity<CommonWebVM, ActivityCommonWebBinding
 
     private val requestCollectVM: RequestCollectVM = RequestCollectVM()
 
+    @JvmField
     @Autowired
     var id: Int = 0
+    @JvmField
     @Autowired
     var title: String = ""
+    @JvmField
     @Autowired(name = "url")
     var webUrl: String = ""
+    @JvmField
     @Autowired
     var isCollect: Boolean = false
 
-
-//    companion object {
-//        fun go(context: Context, bundle: Bundle){
-//            val intent = Intent(context, CommonWebActivity::class.java)
-//            intent.putExtras(bundle)
-//            context.startActivity(intent)
-//        }
-//
-//    }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_common_web

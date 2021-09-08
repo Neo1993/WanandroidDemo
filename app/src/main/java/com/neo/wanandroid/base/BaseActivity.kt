@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import com.alibaba.android.arouter.launcher.ARouter
 
 abstract class BaseActivity : AppCompatActivity(){
     @LayoutRes
@@ -11,9 +12,9 @@ abstract class BaseActivity : AppCompatActivity(){
     abstract fun showLoading(loadingMessage : String  = "正在加载中")
     abstract fun dissmissLoading()
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        setContentView(getLayoutId())
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ARouter.getInstance().inject(this)
     }
 
 }

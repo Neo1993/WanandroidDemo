@@ -14,12 +14,6 @@ android {
         dataBinding = true
     }
 
-    kapt {
-        arguments {
-            arg("AROUTER_MODULE_NAME", project.getName())
-        }
-    }
-
     defaultConfig {
         applicationId "com.neo.wanandroid"
         minSdkVersion 21
@@ -45,6 +39,12 @@ android {
         jvmTarget = '1.8'
     }
 
+}
+
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
 }
 
 dependencies {
