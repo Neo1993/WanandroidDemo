@@ -60,15 +60,7 @@ class CommonWebActivity : BaseVmDbActivity<CommonWebVM, ActivityCommonWebBinding
 
             window.invalidatePanelMenu(Window.FEATURE_OPTIONS_PANEL)
             invalidateOptionsMenu()
-//            intent.extras?.let {
-//                id = it.getInt("id", 0)
-//                showTitle = it.getString("title").toString()
-//                url = it.getString("webUrl").toString()
-//            }
         }
-//        mViewModel.id = intent.extras?.getInt("id", 0)!!
-//        mViewModel.showTitle = intent.extras?.getString("title").toString()
-//        mViewModel.url = intent.extras?.getString("webUrl").toString()
         mDatabind.includeToolbar.toolbar.initClose(mViewModel.showTitle){
             finish()
         }
@@ -83,16 +75,15 @@ class CommonWebActivity : BaseVmDbActivity<CommonWebVM, ActivityCommonWebBinding
     }
 
     override fun createObserver() {
-        eventVM.collectState.observe(this, {
-            if(it.isSuccess){
+        eventVM.collectState.observeInActivity(this) {
+            if (it.isSuccess) {
                 mViewModel.isCollect = it.isCollect;
                 window.invalidatePanelMenu(Window.FEATURE_OPTIONS_PANEL)
                 invalidateOptionsMenu()
-            }else{
+            } else {
                 showMessage(it.errorMsg)
             }
-
-        })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -126,6 +117,7 @@ class CommonWebActivity : BaseVmDbActivity<CommonWebVM, ActivityCommonWebBinding
             R.id.web_collect -> {
                 //点击收藏 震动一下
                 VibrateUtils.vibrate(40)
+
                 if(mViewModel.isCollect){
                     requestCollectVM.uncollect(mViewModel.id)
                 }else{

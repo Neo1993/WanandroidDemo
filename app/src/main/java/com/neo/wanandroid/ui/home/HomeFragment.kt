@@ -68,14 +68,6 @@ class HomeFragment : BaseVMFragment<HomeVM>() {
 
             setOnItemClickListener { adapter, view, position ->
                 val data = articleAdapter.data.get(position - this@HomeFragment.recyclerView.headerCount)
-//                val id = data.id;
-//                val title = data.title
-//                val webUrl = data.link
-//                var bundle = Bundle()
-//                bundle.putInt("id", id)
-//                bundle.putString("webUrl", webUrl)
-//                bundle.putString("title", title)
-//                context?.let { CommonWebActivity.go(it, bundle) }
                 data.run {
                     ARouter.getInstance().build(PATH_ACTIVITY_COMMONWEB)
                         .withInt("id", id)
@@ -142,6 +134,27 @@ class HomeFragment : BaseVMFragment<HomeVM>() {
             })
         }
 
+        eventVM.apply {
+            collectState.observeInFragment(this@HomeFragment){
+                collectState.value?.let {
+                    if(it.isSuccess){
+                        run breaking@{
+                            articleAdapter.data.indices.forEach { index ->
+                                val data = articleAdapter.data.get(index)
+                                if(it.id == data.id){
+                                    data.collect = it.isCollect
+                                    articleAdapter.notifyItemChanged(index)
+                                    return@breaking
+                                }
+                            }
+                        }
+                    }else{
+                        showMessage(it.errorMsg)
+                    }
+                }
+            }
+        }
+
         appVM.apply {
             currentUser.observe(this@HomeFragment, {
                 if(it != null){     //已登录
@@ -164,7 +177,7 @@ class HomeFragment : BaseVMFragment<HomeVM>() {
 
         //监听全局的收藏信息 收藏的Id跟本列表的数据id匹配则需要更新
         eventVM.apply {
-            collectState.observe(this@HomeFragment, {
+            collectState.observeInFragment(this@HomeFragment){
                 for (index in articleAdapter.data.indices){
                     val item = articleAdapter.data.get(index)
                     if(it.id == item.id){
@@ -172,7 +185,7 @@ class HomeFragment : BaseVMFragment<HomeVM>() {
                         articleAdapter.notifyItemChanged(index)
                     }
                 }
-            })
+            }
         }
 
     }

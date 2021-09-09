@@ -66,6 +66,7 @@ dependencies {
     // viewModel
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 //    api "androidx.fragment:fragment-ktx:1.2.5"
+    implementation 'com.kunminx.archi:unpeek-livedata:4.4.1-beta1'
 
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"

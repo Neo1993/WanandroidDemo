@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.blankj.utilcode.util.VibrateUtils
 import com.neo.wanandroid.R
+import com.neo.wanandroid.utils.CacheUtil
 import per.goweii.reveallayout.RevealLayout
 
 /**
@@ -31,10 +32,19 @@ class CollectView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             MotionEvent.ACTION_UP ->{
                 //震动一下
                 VibrateUtils.vibrate(40)
+                onCollectViewClickListener?.onClick(this)
             }
         }
         return false
     }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if(CacheUtil.isLogin(true)){
+            return super.onTouchEvent(event)
+        }
+        return false
+    }
+
 
     fun setOnCollectViewClickListener(onCollectViewClickListener: OnCollectViewClickListener) {
         this.onCollectViewClickListener = onCollectViewClickListener
