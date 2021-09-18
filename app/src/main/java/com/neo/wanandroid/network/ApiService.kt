@@ -47,12 +47,12 @@ interface ApiService {
      * 收藏文章
      */
     @POST("lg/collect/{id}/json")
-    suspend fun collect(@Path("id") id: Int): ApiResponse<Any>
+    suspend fun collect(@Path("id") id: Int): ApiResponse<Any?>
 
     /**
      * 取消收藏文章
      */
     @POST("lg/uncollect_originId/{id}/json")
-    suspend fun uncollect(@Path("id") id: Int): ApiResponse<Any>
+    suspend fun uncollect(@Path("id") id: Int): ApiResponse<Any?>
 
 }
