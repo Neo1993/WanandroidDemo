@@ -3,8 +3,10 @@ package com.neo.wanandroid.ui.mine
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import com.alibaba.android.arouter.launcher.ARouter
 import com.neo.wanandroid.R
 import com.neo.wanandroid.app.appVM
+import com.neo.wanandroid.app.constant.PATH_ACTIVITY_LOGIN
 import com.neo.wanandroid.base.BaseVMFragment
 import com.neo.wanandroid.base.BaseVmDbFragment
 import com.neo.wanandroid.databinding.FragmentMineBinding
@@ -56,7 +58,7 @@ class MineFragment : BaseVmDbFragment<MineVM, FragmentMineBinding>() {
 
     fun login(){
         if(!CacheUtil.isLogin()){
-            startActivity(Intent(activity, LoginActivity::class.java))
+            ARouter.getInstance().build(PATH_ACTIVITY_LOGIN).navigation()
         }
     }
 

@@ -120,9 +120,9 @@ class ArticleAdapter(dataList: MutableList<ArticleResponse>) :
         }
     }
 
-    private var collectAction:(item: ArticleResponse, v: CollectView, position: Int) -> Unit = {
-        articleResponse: ArticleResponse, v: CollectView, position: Int ->
-    }
+    private var collectAction: (item: ArticleResponse, v: CollectView, position: Int) -> Unit =
+        { articleResponse: ArticleResponse, v: CollectView, position: Int ->
+        }
 
     fun setCollectClick(collectAction: (item: ArticleResponse, v: CollectView, position: Int) -> Unit){
         this.collectAction = collectAction

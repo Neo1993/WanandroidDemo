@@ -17,4 +17,12 @@ abstract class BaseActivity : AppCompatActivity(){
         ARouter.getInstance().inject(this)
     }
 
+    fun goActivity(path: String){
+        ARouter.getInstance().build(path).navigation()
+    }
+
+    fun goActivity(path: String, bundle: Bundle){
+        ARouter.getInstance().build(path).with(bundle).navigation();
+    }
+
 }

@@ -75,13 +75,21 @@ class CommonWebActivity : BaseVmDbActivity<CommonWebVM, ActivityCommonWebBinding
     }
 
     override fun createObserver() {
-        eventVM.collectState.observeInActivity(this) {
-            if (it.isSuccess) {
-                mViewModel.isCollect = it.isCollect;
-                window.invalidatePanelMenu(Window.FEATURE_OPTIONS_PANEL)
-                invalidateOptionsMenu()
-            } else {
-                showMessage(it.errorMsg)
+        requestCollectVM.apply {
+            collectState.observe(this@CommonWebActivity){
+                if(!it.isSuccess){
+                    showMessage(it.errorMsg)
+                }
+            }
+        }
+
+        eventVM.apply {
+            collectState.observeInActivity(this@CommonWebActivity) {
+                if (it.isSuccess) {
+                    mViewModel.isCollect = it.isCollect;
+                    window.invalidatePanelMenu(Window.FEATURE_OPTIONS_PANEL)
+                    invalidateOptionsMenu()
+                }
             }
         }
     }

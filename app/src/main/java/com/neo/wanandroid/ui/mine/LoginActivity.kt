@@ -4,10 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.CompoundButton
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.ToastUtils
 import com.neo.wanandroid.R
 import com.neo.wanandroid.app.appVM
 import com.neo.wanandroid.app.constant.PATH_ACTIVITY_LOGIN
+import com.neo.wanandroid.app.constant.PATH_ACTIVITY_REGISTER
 import com.neo.wanandroid.base.BaseVmDbActivity
 import com.neo.wanandroid.databinding.ActivityLoginBinding
 import com.neo.wanandroid.ext.hideSoftKeyboard
@@ -59,7 +61,8 @@ class LoginActivity : BaseVmDbActivity<LoginVM, ActivityLoginBinding>() {
 
         fun goRegister(){
             hideSoftKeyboard(this@LoginActivity)
-            startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
+//            startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
+            goActivity(PATH_ACTIVITY_REGISTER)
         }
 
     }

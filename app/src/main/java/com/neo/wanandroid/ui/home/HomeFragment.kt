@@ -41,10 +41,6 @@ class HomeFragment : BaseVMFragment<HomeVM>() {
         }
         loadService.showLoading()
 
-        //初始化SwipeRefreshLayout
-//        swipeRefreshLayout.init {
-//            initLoadData()
-//        }
         //初始化SmartRefreshLayout的下拉刷新和上拉加载
         refreshLayout.init ({
             initLoadData()
@@ -134,26 +130,32 @@ class HomeFragment : BaseVMFragment<HomeVM>() {
             })
         }
 
-        eventVM.apply {
-            collectState.observeInFragment(this@HomeFragment){
-                collectState.value?.let {
-                    if(it.isSuccess){
-                        run breaking@{
-                            articleAdapter.data.indices.forEach { index ->
-                                val data = articleAdapter.data.get(index)
-                                if(it.id == data.id){
-                                    data.collect = it.isCollect
-                                    articleAdapter.notifyItemChanged(index)
-                                    return@breaking
-                                }
-                            }
-                        }
-                    }else{
-                        showMessage(it.errorMsg)
-                    }
+        requestCollectVM.apply {
+            collectState.observe(this@HomeFragment){
+                if(!it.isSuccess){
+                    showMessage(it.errorMsg)
                 }
             }
         }
+
+//        eventVM.apply {
+//            collectState.observeInFragment(this@HomeFragment){
+//                collectState.value?.let {
+//                    if(it.isSuccess){
+//                        run breaking@{
+//                            articleAdapter.data.indices.forEach { index ->
+//                                val data = articleAdapter.data.get(index)
+//                                if(it.id == data.id){
+//                                    data.collect = it.isCollect
+//                                    articleAdapter.notifyItemChanged(index)
+//                                    return@breaking
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         appVM.apply {
             currentUser.observe(this@HomeFragment, {
