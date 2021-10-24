@@ -19,6 +19,8 @@ import com.neo.wanandroid.ext.initClose
 import com.neo.wanandroid.ext.showMessage
 import com.neo.wanandroid.vm.CommonWebVM
 import com.neo.wanandroid.vm.RequestCollectVM
+import kotlinx.android.synthetic.main.include_toolbar.*
+import kotlinx.android.synthetic.main.include_toolbar.view.*
 
 @Route(path = PATH_ACTIVITY_COMMONWEB)
 class CommonWebActivity : BaseVmDbActivity<CommonWebVM, ActivityCommonWebBinding>() {

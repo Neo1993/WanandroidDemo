@@ -1,9 +1,6 @@
 package com.neo.wanandroid.network
 
-import com.neo.wanandroid.model.bean.ApiPageResponse
-import com.neo.wanandroid.model.bean.ArticleResponse
-import com.neo.wanandroid.model.bean.BannerResponse
-import com.neo.wanandroid.model.bean.User
+import com.neo.wanandroid.model.bean.*
 import retrofit2.http.*
 
 interface ApiService {
@@ -54,5 +51,11 @@ interface ApiService {
      */
     @POST("lg/uncollect_originId/{id}/json")
     suspend fun uncollect(@Path("id") id: Int): ApiResponse<Any?>
+
+    /**
+     * 获取热门搜索数据
+     */
+    @GET("hotkey/json")
+    suspend fun getSearchData(): ApiResponse<List<SearchResponse>>
 
 }

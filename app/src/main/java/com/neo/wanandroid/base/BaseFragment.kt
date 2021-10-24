@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import com.alibaba.android.arouter.launcher.ARouter
 
 abstract class BaseFragment : Fragment(){
     lateinit var mFragmentView : View;
@@ -18,6 +19,14 @@ abstract class BaseFragment : Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mFragmentView = layoutInflater.inflate(getLayoutId(), container, false)
         return mFragmentView
+    }
+
+    fun goActivity(path: String){
+        ARouter.getInstance().build(path).navigation()
+    }
+
+    fun goActivity(path: String, bundle: Bundle){
+        ARouter.getInstance().build(path).with(bundle).navigation();
     }
 
 }

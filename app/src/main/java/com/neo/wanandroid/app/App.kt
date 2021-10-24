@@ -52,10 +52,10 @@ class App : BaseApp() {
         eventVM = EventVM()
 
         //创建服务用于捕获崩溃异常
-        Thread.setDefaultUncaughtExceptionHandler { t, e ->
-                e.printStackTrace()
-                restartApp()
-        }
+//        Thread.setDefaultUncaughtExceptionHandler { t, e ->
+//                e.printStackTrace()
+//                restartApp()
+//        }
 
         LoadSir.beginBuilder()
             .addCallback(LoadingCallback())             //加载页

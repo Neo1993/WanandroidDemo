@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginVertical="6dp"
+        android:paddingVertical="3dp"
+        android:background="@drawable/shape_radius_5"
+        android:backgroundTint="#666666"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/keyTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            tools:text="标签"
+            android:paddingHorizontal="6dp" />
+
+        <ImageView
+            android:id="@+id/deleteIV"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:src="@drawable/ic_close"
+            android:padding="3dp"
+            android:layout_marginLeft="-6dp"
+            android:layout_gravity="right"
+            android:visibility="gone"/>
+
+
+    </LinearLayout>
+
+
+</FrameLayout>

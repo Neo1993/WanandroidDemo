@@ -12,8 +12,11 @@ import com.kingja.loadsir.core.LoadSir
 import com.neo.wanandroid.R
 import com.neo.wanandroid.app.appVM
 import com.neo.wanandroid.app.constant.PATH_ACTIVITY_COMMONWEB
+import com.neo.wanandroid.app.constant.PATH_ACTIVITY_SEARCH
 import com.neo.wanandroid.app.eventVM
 import com.neo.wanandroid.base.BaseVMFragment
+import com.neo.wanandroid.base.BaseVmDbFragment
+import com.neo.wanandroid.databinding.FragmentHomeBinding
 import com.neo.wanandroid.ext.*
 import com.neo.wanandroid.model.bean.BannerResponse
 import com.neo.wanandroid.ui.CommonWebActivity
@@ -22,9 +25,12 @@ import com.neo.wanandroid.ui.widget.recyclerview.SpaceItemDecoration
 import com.neo.wanandroid.vm.HomeVM
 import com.neo.wanandroid.vm.RequestCollectVM
 import com.zhpan.bannerview.BannerViewPager
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.include_toolbar.*
+import kotlinx.android.synthetic.main.include_toolbar.view.*
 
-class HomeFragment : BaseVMFragment<HomeVM>() {
+class HomeFragment : BaseVmDbFragment<HomeVM, FragmentHomeBinding>() {
     private val articleAdapter: ArticleAdapter = ArticleAdapter(arrayListOf())
     private lateinit var loadService: LoadService<Any>
     private val requestCollectVM: RequestCollectVM = RequestCollectVM()
@@ -39,7 +45,20 @@ class HomeFragment : BaseVMFragment<HomeVM>() {
             loadService.showLoading()
             initLoadData()
         }
-        loadService.showLoading()
+
+        //初始化 toolbar
+        mDataBind.includeToolbar.toolbar.run {
+            title = "首页"
+            inflateMenu(R.menu.home_menu)
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.home_search -> {
+                        goActivity(PATH_ACTIVITY_SEARCH)
+                    }
+                }
+                true
+            }
+        }
 
         //初始化SmartRefreshLayout的下拉刷新和上拉加载
         refreshLayout.init ({
@@ -51,6 +70,7 @@ class HomeFragment : BaseVMFragment<HomeVM>() {
         //初始化RecyclerView
         recyclerView.init(LinearLayoutManager(context), articleAdapter).let {
             it.addItemDecoration(SpaceItemDecoration(0, ConvertUtils.dp2px(8f), false))
+            it.initFloatBT(floatBT)
         }
 
         articleAdapter.apply {

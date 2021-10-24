@@ -122,7 +122,9 @@ fun <T> BaseVMFragment<*>.handleCallback(
 }
 
 /**
- *
+ *  解析响应数据
+ *  @param 响应的数据
+ *  @param 成功回调
  */
 suspend fun <T> executeResponse(
         response: BaseResponse<T>,
@@ -139,6 +141,25 @@ suspend fun <T> executeResponse(
                         response.getResponseMsg()
                 )
             }
+        }
+    }
+}
+
+/**
+ *
+ */
+fun <T> BaseViewModel.launch(
+    block: suspend () -> T,
+    success: (T) -> Unit,
+    error: (Throwable) -> Unit = {}
+) {
+    viewModelScope.launch {
+        runCatching {
+            block()
+        }.onSuccess {
+            success(it)
+        }.onFailure {
+            error(it)
         }
     }
 }
