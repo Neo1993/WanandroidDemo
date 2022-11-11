@@ -1,8 +1,11 @@
 package com.neo.wanandroid.model.bean
 
+import kotlinx.serialization.Serializable
+
 /**
  * 首页轮播图
  */
+@Serializable
 data class BannerResponse(
     var desc: String = "",
     var id: Int = 0,

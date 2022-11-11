@@ -20,18 +20,18 @@
             android:layout_height="match_parent"
             android:background="@color/windowBackground">
 
-            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            <com.drake.brv.PageRefreshLayout
                 android:id="@+id/refreshLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.yanzhenjie.recyclerview.SwipeRecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scrollbars="none" />
+                    android:scrollbars="none"/>
 
-            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+            </com.drake.brv.PageRefreshLayout>>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floatBT"

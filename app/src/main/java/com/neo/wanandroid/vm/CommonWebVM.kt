@@ -1,6 +1,6 @@
 package com.neo.wanandroid.vm
 
-import com.neo.wanandroid.base.BaseViewModel
+import com.lib.common.base.BaseViewModel
 
 class CommonWebVM : BaseViewModel() {
     var isCollect: Boolean = false

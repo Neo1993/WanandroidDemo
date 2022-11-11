@@ -1,5 +1,6 @@
 package com.neo.wanandroid.model.bean
 
-import java.io.Serializable
+import kotlinx.serialization.Serializable
 
-data class TagResponse(var name: String, var url: String)
+@Serializable
+data class TagResponse(var name: String = "", var url: String)

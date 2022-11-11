@@ -1,8 +1,12 @@
 package com.neo.wanandroid.model.bean
 
+import androidx.databinding.BaseObservable
+import kotlinx.serialization.Serializable
+
 /**
  * 文章
  */
+@Serializable
 data class ArticleResponse(
     var apkLink: String = "",
     var audit: Int = 0,
@@ -37,4 +41,4 @@ data class ArticleResponse(
     var userId: Int = 0,
     var visible: Int = 0,
     var zan: Int = 0
-)
+) : BaseObservable()

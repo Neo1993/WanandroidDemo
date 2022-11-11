@@ -6,68 +6,48 @@ import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
-import com.alibaba.android.arouter.facade.annotation.Autowired
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.blankj.utilcode.util.VibrateUtils
 import com.just.agentweb.AgentWeb
 import com.neo.wanandroid.R
-import com.neo.wanandroid.app.constant.PATH_ACTIVITY_COMMONWEB
 import com.neo.wanandroid.app.eventVM
-import com.neo.wanandroid.base.BaseVmDbActivity
+import com.neo.wanandroid.base.BaseActivity
 import com.neo.wanandroid.databinding.ActivityCommonWebBinding
 import com.neo.wanandroid.ext.initClose
 import com.neo.wanandroid.ext.showMessage
 import com.neo.wanandroid.vm.CommonWebVM
 import com.neo.wanandroid.vm.RequestCollectVM
-import kotlinx.android.synthetic.main.include_toolbar.*
-import kotlinx.android.synthetic.main.include_toolbar.view.*
 
-@Route(path = PATH_ACTIVITY_COMMONWEB)
-class CommonWebActivity : BaseVmDbActivity<CommonWebVM, ActivityCommonWebBinding>() {
+class CommonWebActivity : BaseActivity<CommonWebVM, ActivityCommonWebBinding>() {
     lateinit var preWeb: AgentWeb.PreAgentWeb
     lateinit var mAgentWeb: AgentWeb
 
     private val requestCollectVM: RequestCollectVM = RequestCollectVM()
-
-    @JvmField
-    @Autowired
-    var id: Int = 0
-    @JvmField
-    @Autowired
-    var title: String = ""
-    @JvmField
-    @Autowired(name = "url")
-    var webUrl: String = ""
-    @JvmField
-    @Autowired
-    var isCollect: Boolean = false
-
-
+    
     override fun getLayoutId(): Int {
         return R.layout.activity_common_web
     }
 
-    override fun init(savedInstanceState: Bundle?) {
-        setSupportActionBar(mDatabind.includeToolbar.toolbar)
+    override fun initView(savedInstanceState: Bundle?) {
+        setSupportActionBar(mDataBinding.includeToolbar.toolbar)
         supportActionBar?.run {
             setHomeButtonEnabled(true)
             setDisplayHomeAsUpEnabled(true)
         }
 
         mViewModel.let {
-            it.id = id
-            it.showTitle = title
-            it.url = webUrl
-            it.isCollect = isCollect
+//            it.id = id
+//            it.showTitle = title
+//            it.url = webUrl
+//            it.isCollect = isCollect
 
             window.invalidatePanelMenu(Window.FEATURE_OPTIONS_PANEL)
             invalidateOptionsMenu()
         }
-        mDatabind.includeToolbar.toolbar.initClose(mViewModel.showTitle){
+        mDataBinding.includeToolbar.toolbar.initClose(mViewModel.showTitle){
             finish()
         }
         preWeb = AgentWeb.with(this)
-                .setAgentWebParent(mDatabind.containerFL, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+                .setAgentWebParent(mDataBinding.containerFL, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator()
                 .createAgentWeb()
                 .ready()
@@ -76,7 +56,7 @@ class CommonWebActivity : BaseVmDbActivity<CommonWebVM, ActivityCommonWebBinding
 
     }
 
-    override fun createObserver() {
+    override fun initData() {
         requestCollectVM.apply {
             collectState.observe(this@CommonWebActivity){
                 if(!it.isSuccess){

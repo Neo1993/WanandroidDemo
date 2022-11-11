@@ -5,15 +5,11 @@ import android.view.Menu
 import android.view.View
 import android.view.Window
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.neo.wanandroid.R
-import com.neo.wanandroid.app.constant.PATH_ACTIVITY_SEARCH
-import com.neo.wanandroid.base.BaseVmDbActivity
+import com.neo.wanandroid.base.BaseActivity
 import com.neo.wanandroid.databinding.ActivitySearchBinding
 import com.neo.wanandroid.ext.init
 import com.neo.wanandroid.ext.initClose
@@ -22,20 +18,17 @@ import com.neo.wanandroid.ui.adapter.HotSearchAdapter
 import com.neo.wanandroid.ui.adapter.RecentSearchAdapter
 import com.neo.wanandroid.utils.CacheUtil
 import com.neo.wanandroid.vm.SearchVM
-import kotlinx.android.synthetic.main.include_toolbar.*
-import okhttp3.internal.notify
 
-@Route(path = PATH_ACTIVITY_SEARCH)
-class SearchActivity: BaseVmDbActivity<SearchVM, ActivitySearchBinding>() {
+class SearchActivity: BaseActivity<SearchVM, ActivitySearchBinding>() {
     private val hotSearchAdapter by lazy { HotSearchAdapter() }
     private val recentSearchAdapter by lazy { RecentSearchAdapter() }
 
-    override fun init(savedInstanceState: Bundle?) {
-        mDatabind.vm = mViewModel;
-        mDatabind.viewClick = this
+    override fun initView(savedInstanceState: Bundle?) {
+        mDataBinding.vm = mViewModel;
+        mDataBinding.viewClick = this
         setMenu()
         val flexboxLayoutManager1 = FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP)
-        mDatabind.hotRV.init(flexboxLayoutManager1, hotSearchAdapter)
+        mDataBinding.hotRV.init(flexboxLayoutManager1, hotSearchAdapter)
         hotSearchAdapter.run {
             setOnItemClickListener { adapter, view, position ->
                 val key = hotSearchAdapter.data.get(position).name
@@ -44,7 +37,7 @@ class SearchActivity: BaseVmDbActivity<SearchVM, ActivitySearchBinding>() {
         }
 
         val flexboxLayoutManager2 = FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP)
-        mDatabind.recentRV.init(flexboxLayoutManager2, recentSearchAdapter)
+        mDataBinding.recentRV.init(flexboxLayoutManager2, recentSearchAdapter)
         recentSearchAdapter.run {
             setOnItemChildClickListener { adapter, view, position ->
                 when(view.id){
@@ -58,7 +51,7 @@ class SearchActivity: BaseVmDbActivity<SearchVM, ActivitySearchBinding>() {
         initLoadData()
     }
 
-    override fun createObserver() {
+    override fun initData() {
         mViewModel.run {
             searchKeyList.observe(this@SearchActivity){
                 hotSearchAdapter.setList(it)
@@ -101,12 +94,12 @@ class SearchActivity: BaseVmDbActivity<SearchVM, ActivitySearchBinding>() {
     }
 
     private fun setMenu() {
-        setSupportActionBar(mDatabind.includeToolbar.toolbar)
+        setSupportActionBar(mDataBinding.includeToolbar.toolbar)
         supportActionBar?.run {
             setHomeButtonEnabled(true)
             setDisplayHomeAsUpEnabled(true)
         }
-        mDatabind.includeToolbar.toolbar.run {
+        mDataBinding.includeToolbar.toolbar.run {
             initClose {
                 finish()
             }
@@ -159,7 +152,7 @@ class SearchActivity: BaseVmDbActivity<SearchVM, ActivitySearchBinding>() {
      * 点击删除搜索词
      */
     fun clickDeleteKey() {
-        mDatabind.run {
+        mDataBinding.run {
             deleteTV.visibility = View.GONE
             cancelTV.visibility = View.VISIBLE
             delAllTV.visibility = View.VISIBLE
@@ -171,7 +164,7 @@ class SearchActivity: BaseVmDbActivity<SearchVM, ActivitySearchBinding>() {
      * 点击取消删除搜索词
      */
     fun clickCancelDelete() {
-        mDatabind.run {
+        mDataBinding.run {
             deleteTV.visibility = View.VISIBLE
             cancelTV.visibility = View.GONE
             delAllTV.visibility = View.GONE
@@ -183,7 +176,7 @@ class SearchActivity: BaseVmDbActivity<SearchVM, ActivitySearchBinding>() {
      * 点击删除所有搜索词
      */
     fun deleteAll() {
-        mDatabind.run {
+        mDataBinding.run {
             deleteTV.visibility = View.VISIBLE
             cancelTV.visibility = View.GONE
             delAllTV.visibility = View.GONE

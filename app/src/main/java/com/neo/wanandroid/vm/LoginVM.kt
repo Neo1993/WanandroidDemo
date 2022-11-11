@@ -2,15 +2,10 @@ package com.neo.wanandroid.vm
 
 import android.view.View
 import androidx.databinding.ObservableField
-import androidx.lifecycle.MutableLiveData
-import com.blankj.utilcode.util.ToastUtils
+import com.lib.common.base.BaseViewModel
 import com.neo.wanandroid.app.appVM
-import com.neo.wanandroid.base.BaseViewModel
-import com.neo.wanandroid.ext.hideSoftKeyboard
 import com.neo.wanandroid.ext.request
-import com.neo.wanandroid.model.bean.User
 import com.neo.wanandroid.network.apiService
-import com.neo.wanandroid.ui.mine.RegisterActivity
 import com.neo.wanandroid.utils.CacheUtil
 
 class LoginVM: BaseViewModel() {

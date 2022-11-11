@@ -1,128 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="4dp"
-    app:cardElevation="4dp">
+<layout>
+    <data>
 
-    <LinearLayout
+        <!--使用Java某些类都要通过import导入才能正常使用-->
+        <import type="android.text.TextUtils" alias="TextUtlis" />
+        <import type="java.util.Collections" alias="Collections" />
+        <import type="com.neo.wanandroid.ext.CommonExtKt"/>
+        <import type="android.view.View"/>
+
+        <variable
+            name="m"
+            type="com.neo.wanandroid.model.bean.ArticleResponse" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        android:id="@+id/item">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/item_home_author"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack666"
-                android:textSize="13dp"
-                tools:text="有何高见" />
-
-            <TextView
-                android:id="@+id/item_home_top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/title_lable_shap"
-                android:paddingLeft="3dp"
-                android:paddingRight="3dp"
-                android:textColor="@android:color/holo_red_light"
-                android:textSize="10dp"
-                android:text="置顶" />
-
-            <TextView
-                android:id="@+id/item_home_new"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/title_lable_shap"
-                android:paddingLeft="3dp"
-                android:paddingRight="3dp"
-                android:textColor="@android:color/holo_red_light"
-                android:textSize="10dp"
-                android:text="新" />
-
-            <TextView
-                android:id="@+id/item_home_type1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/title_lable_shap1"
-                android:paddingLeft="3dp"
-                android:paddingRight="3dp"
-                android:textColor="@android:color/holo_green_dark"
-                android:textSize="10dp"
-                android:text="问答" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/item_home_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:textColor="@color/colorBlack666"
-                android:textSize="13dp"
-                tools:text="1小时前" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/item_home_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            tools:text="这是一个根据JetpackMvvm框架开发玩Android的一个APP"
-            android:textColor="@color/colorBlack333"
-            android:textSize="14dp"
-            android:textStyle="bold" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/item_home_type2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:textColor="@color/colorBlack666"
-                android:textSize="13dp"
-                tools:text="分类·项目" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <com.neo.wanandroid.ui.widget.custom.CollectView
-                android:id="@+id/item_home_collect"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp" />
-        </RelativeLayout>
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/item_home_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack666"
+                    android:textSize="13dp"
+                    android:text="@{!TextUtlis.isEmpty(m.author)? m.author : m.shareUser}"
+                    tools:text="有何高见" />
+
+                <TextView
+                    android:id="@+id/item_home_top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/title_lable_shap"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
+                    android:textColor="@android:color/holo_red_light"
+                    android:textSize="10dp"
+                    android:text="置顶"
+                    android:visibility="@{m.type == 1 ? View.VISIBLE : View.GONE}"/>
+
+                <TextView
+                    android:id="@+id/item_home_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/title_lable_shap"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
+                    android:textColor="@android:color/holo_red_light"
+                    android:textSize="10dp"
+                    android:text="新"
+                    android:visibility="@{m.fresh ? View.VISIBLE : View.GONE}"/>
+
+                <TextView
+                    android:id="@+id/item_home_type1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/title_lable_shap1"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:textSize="10dp"
+                    android:text="@{m.tags.size() > 0 ? m.tags.get(0).name : `问答`}"
+                    android:visibility="@{m.tags.size() > 0 ? View.VISIBLE : View.GONE}"
+                    tools:text="问答"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/item_home_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:textColor="@color/colorBlack666"
+                    android:textSize="13dp"
+                    android:text="@{m.niceDate}"
+                    tools:text="1小时前" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/item_home_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                tools:text="这是一个根据JetpackMvvm框架开发玩Android的一个APP"
+                android:textColor="@color/colorBlack333"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                textToHtml="@{m.title}"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/item_home_type2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:textColor="@color/colorBlack666"
+                    android:textSize="13dp"
+                    tools:text="分类·项目"
+                    textToHtml="@{String.format(`%s·%s`, m.superChapterName, m.chapterName)}"/>
+
+                <com.neo.wanandroid.ui.widget.custom.CollectView
+                    android:id="@+id/item_home_collect"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</layout>
 
 

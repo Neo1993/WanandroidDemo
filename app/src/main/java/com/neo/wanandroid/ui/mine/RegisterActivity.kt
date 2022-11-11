@@ -1,28 +1,22 @@
 package com.neo.wanandroid.ui.mine
 
-import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.CompoundButton
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.blankj.utilcode.util.ToastUtils
-import com.neo.wanandroid.MainActivity
-import com.neo.wanandroid.R
+import com.lib.common.base.BaseVmDbActivity
 import com.neo.wanandroid.app.appVM
-import com.neo.wanandroid.app.constant.PATH_ACTIVITY_LOGIN
-import com.neo.wanandroid.app.constant.PATH_ACTIVITY_REGISTER
-import com.neo.wanandroid.base.BaseVmDbActivity
 import com.neo.wanandroid.databinding.ActivityRegisterBinding
 import com.neo.wanandroid.ext.showMessage
 import com.neo.wanandroid.vm.RegisterVM
 
-@Route(path = PATH_ACTIVITY_REGISTER)
 class RegisterActivity : BaseVmDbActivity<RegisterVM, ActivityRegisterBinding>() {
-    override fun init(savedInstanceState: Bundle?) {
-        mDatabind.vm = mViewModel;
-        mDatabind.viewClick = ViewClick()
+    override fun initView(savedInstanceState: Bundle?) {
+        mDataBinding.vm = mViewModel;
+        mDataBinding.viewClick = ViewClick()
     }
 
-    override fun createObserver() {
+    override fun initData() {
         mViewModel.regisetResult.observe(this){
             mViewModel.login()
         }
@@ -34,10 +28,6 @@ class RegisterActivity : BaseVmDbActivity<RegisterVM, ActivityRegisterBinding>()
             }
         }
 
-    }
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_register
     }
 
     inner class ViewClick{

@@ -1,51 +1,18 @@
 package com.neo.wanandroid.ext
 
 import android.app.Activity
-import android.graphics.Path
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.kingja.loadsir.core.LoadService
 import com.neo.wanandroid.R
 import com.neo.wanandroid.model.bean.ApiPageResponse
 import com.neo.wanandroid.model.bean.ListDataUiState
-import com.neo.wanandroid.ui.widget.loadcallback.EmptyCallback
-import com.neo.wanandroid.ui.widget.loadcallback.ErrorCallback
-import com.neo.wanandroid.ui.widget.loadcallback.LoadingCallback
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.yanzhenjie.recyclerview.SwipeRecyclerView
-import kotlinx.android.synthetic.main.fragment_home.view.*
-
-/**
- * 自定义类的拓展函数
- */
-
-/**
- * 设置加载布局
- */
-fun LoadService<*>.showLoading(){
-    showCallback(LoadingCallback::class.java)
-}
-
-/**
- * 设置空布局
- */
-fun LoadService<*>.showEmpty(){
-    showCallback(EmptyCallback::class.java)
-}
-
-/**
- * 设置错误布局
- * @param message   错误布局显示的提示内容
- */
-fun LoadService<*>.showError(message: String= ""){
-    showCallback(ErrorCallback::class.java)
-}
 
 /**
  * 初始化RcyclcerView
@@ -77,13 +44,6 @@ fun SwipeRecyclerView.init(
     isNestedScrollingEnabled = isScroll
     setHasFixedSize(hasFixedSize)
     return this
-}
-
-fun SwipeRefreshLayout.init(onRefresh: () -> Unit){
-    setOnRefreshListener(onRefresh)
-//    setOnRefreshListener {
-//        onRefresh.invoke()
-//    }
 }
 
 fun RecyclerView.initFloatBT(floatBT: FloatingActionButton){

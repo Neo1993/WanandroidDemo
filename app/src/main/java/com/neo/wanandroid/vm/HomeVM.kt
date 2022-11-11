@@ -1,15 +1,15 @@
 package com.neo.wanandroid.vm
 
 import androidx.lifecycle.MutableLiveData
-import com.neo.wanandroid.base.BaseViewModel
+import androidx.lifecycle.scopeNetLife
+import com.drake.net.Get
+import com.lib.common.base.BaseViewModel
+import com.neo.wanandroid.app.constant.Api
 import com.neo.wanandroid.ext.request
-import com.neo.wanandroid.model.bean.ApiPageResponse
 import com.neo.wanandroid.model.bean.ArticleResponse
 import com.neo.wanandroid.model.bean.BannerResponse
 import com.neo.wanandroid.model.bean.ListDataUiState
-import com.neo.wanandroid.model.repository.request.HttpRequestManager
 import com.neo.wanandroid.model.repository.request.httpRequstManager
-import com.neo.wanandroid.network.ApiResponse
 import com.neo.wanandroid.network.RequestCallback
 import com.neo.wanandroid.network.apiService
 import com.neo.wanandroid.utils.LogUtils
@@ -22,6 +22,9 @@ class HomeVM : BaseViewModel() {
 
     fun getBanner() {
         request({ apiService.getBanner() }, bannerData)
+        scopeNetLife {
+            val bannerList = Get<List<BannerResponse>>(Api.BANNER).await()
+        }
     }
 
     fun getHomeArticle(isRefresh: Boolean = false) {

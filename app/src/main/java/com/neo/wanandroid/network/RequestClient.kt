@@ -3,7 +3,7 @@ package com.neo.wanandroid.network
 import com.franmontiel.persistentcookiejar.PersistentCookieJar
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
-import com.neo.wanandroid.app.App
+import com.neo.wanandroid.app.MainApplication
 import com.neo.wanandroid.network.interceptor.CacheInterceptor
 import com.neo.wanandroid.network.interceptor.MyHeadInterceptor
 import com.neo.wanandroid.network.interceptor.logging.LogInterceptor
@@ -22,7 +22,7 @@ val apiService: ApiService by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
 }
 
 val cookieJar: PersistentCookieJar by lazy {
-    PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(App.instance))
+    PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(MainApplication.instance))
 }
 
 class RequestClient {
@@ -35,7 +35,7 @@ class RequestClient {
         val builder = OkHttpClient.Builder()
         return builder
             //设置缓存配置 缓存最大10M
-            .cache(Cache(File(App.instance.cacheDir, "net_cache"), 10 * 1024 * 1024))
+            .cache(Cache(File(MainApplication.instance.cacheDir, "net_cache"), 10 * 1024 * 1024))
             //添加Cookies自动持久化
             .cookieJar(cookieJar)
             //示例：添加公共heads 注意要设置在日志拦截器之前，不然Log中会不显示head信息

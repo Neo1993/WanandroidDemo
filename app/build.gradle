@@ -1,28 +1,26 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'          //插件绑定视图
     id 'kotlin-kapt'
+    id 'kotlinx-serialization'
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    compileSdkVersion externalCompileSdkVersion
+    buildToolsVersion externalBuildToolsVersion
 
     buildFeatures {
-//        viewBinding = true
         dataBinding = true
     }
 
     defaultConfig {
         applicationId "com.neo.wanandroid"
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdkVersion externalMinSdkVersion
+        targetSdkVersion externalTargetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+        testInstrumentationRunner TestRunner
     }
 
     buildTypes {
@@ -41,31 +39,22 @@ android {
 
 }
 
-kapt {
-    arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
-    }
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.5.0'
-    implementation 'com.google.android.material:material:1.3.0'
+    implementation KotlinStdlib
+    implementation AndroidXCoreKtx
+    implementation externalAndroidDesign
 
     //androidx UI
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation externalAndroidAppCompatV7
+    implementation externalConstraintLayout
 
     //lifecycle
     api 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
-    api 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
     api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
     // viewModel
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
-//    api "androidx.fragment:fragment-ktx:1.2.5"
     implementation 'com.kunminx.archi:unpeek-livedata:4.4.1-beta1'
 
     //retrofit
@@ -93,7 +82,7 @@ dependencies {
     implementation 'com.github.zhpanvip:BannerViewPager:3.1.5'
 
     //glide
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation externalGlide
 
     //第三方recyclerview
     implementation 'com.yanzhenjie.recyclerview:x:1.3.2'
@@ -107,13 +96,6 @@ dependencies {
     //屏幕适配
     implementation 'me.jessyan:autosize:1.2.1'
 
-    //管理界面状态库
-    implementation 'com.kingja.loadsir:loadsir:1.3.8'
-
-    //下拉刷新框架
-    implementation  'com.scwang.smart:refresh-layout-kernel:2.0.3'      //核心必须依赖
-    implementation  'com.scwang.smart:refresh-header-classics:2.0.3'    //经典刷新头
-    implementation  'com.scwang.smart:refresh-footer-classics:2.0.3'    //经典加载
 
     //微信开源项目，替代SP
     implementation 'com.tencent:mmkv:1.0.22'
@@ -121,8 +103,32 @@ dependencies {
     //AgentWeb
     implementation 'com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx'
 
-    //ARouter
-    implementation 'com.alibaba:arouter-api:1.5.2'
-    kapt 'com.alibaba:arouter-compiler:1.5.2'
+    // ------------------------------常用公用库-------------------------------------
+    implementation project(':libs:lib-common')
+
+    // 支持自动下拉刷新和缺省页的(可选)
+    implementation 'com.github.liangjingkanji:BRV:1.3.82'
+
+    //navigation
+    api 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    api 'androidx.navigation:navigation-ui-ktx:2.3.5'
+
+    // ------------------------------网络请求-------------------------------------
+    implementation project(':libs:lib-network')
+    implementation "com.github.chuckerteam.chucker:library:3.5.2" // 通知栏监听网络日志
+
+    // ------------------------------JSON解析-------------------------------------
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2" // JSON序列化库, 首选推荐使用
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.2.0"  // protobuf序列化
+//    implementation "com.squareup.moshi:moshi-kotlin:1.14.0" // JSON序列化库, 强校验, JSON字段缺失会导致解析异常, 故不推荐
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.7.10"
+    implementation 'com.google.code.gson:gson:2.8.6' // JSON序列化库, 会导致kotlin默认值无效, 故不推荐
+    implementation 'com.alibaba:fastjson:1.2.73' // JSON序列化库, 会导致kotlin默认值无效(除非引入kt-reflect), 不推荐
+
+    // ------------------------------其他库-------------------------------------
+//    implementation 'com.github.liangjingkanji:StatusBar:2.0.2' // 透明状态栏
+//    implementation 'com.github.liangjingkanji:debugkit:1.3.0' // 开发调试窗口工具
+    implementation "com.github.liangjingkanji:Tooltip:1.2.2" // 吐司工具
+//    implementation 'com.github.liangjingkanji:Engine:0.0.67'
 
 }

@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdkVersion externalCompileSdkVersion
+    buildToolsVersion externalBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion externalMinSdkVersion
+        targetSdkVersion externalTargetSdkVersion
+
+        testInstrumentationRunner TestRunner
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation externalAndroidAppCompatV7
+    implementation externalAndroidDesign
+    testImplementation TestJunit
+    androidTestImplementation TestJunitExt
+    androidTestImplementation TestEspresso
+
+    implementation KotlinCoroutinesCore
+    implementation KotlinCoroutinesAndroid
+    implementation externalOKHTTP // 要求OkHttp4以上
+    api 'com.github.liangjingkanji:Net:3.5.2'
+}

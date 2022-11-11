@@ -3,11 +3,10 @@ package com.neo.wanandroid.ext
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.blankj.utilcode.util.ToastUtils
-import com.neo.wanandroid.base.BaseVMActivity
-import com.neo.wanandroid.base.BaseVMFragment
-import com.neo.wanandroid.base.BaseViewModel
+import com.lib.common.base.BaseViewModel
+import com.neo.wanandroid.base.BaseActivity
+import com.neo.wanandroid.base.BaseFragment
 import com.neo.wanandroid.network.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -73,7 +72,7 @@ fun <T> BaseViewModel.request(
     }
 }
 
-fun <T> BaseVMActivity<*>.handleCallback(
+fun <T> BaseActivity<*,*>.handleCallback(
         requestCallback: RequestCallback<T>,
         onSuccess: (T) -> Unit,
         onError: ((e: Exception) -> Unit)? = null,
@@ -85,11 +84,11 @@ fun <T> BaseVMActivity<*>.handleCallback(
             onLoading?.invoke()
         }
         is RequestCallback.Success -> {
-            dissmissLoading()
+            dismissLoading()
             onSuccess(requestCallback.data)
         }
         is RequestCallback.Error -> {
-            dissmissLoading()
+            dismissLoading()
             onError?.run {
                 this(requestCallback.exception)
             }
@@ -97,7 +96,7 @@ fun <T> BaseVMActivity<*>.handleCallback(
     }
 }
 
-fun <T> BaseVMFragment<*>.handleCallback(
+fun <T> BaseFragment<*,*>.handleCallback(
         requestCallback: RequestCallback<T>,
         onSuccess: (T) -> Unit,
         onError: ((e: Exception) -> Unit)? = null,
@@ -109,11 +108,11 @@ fun <T> BaseVMFragment<*>.handleCallback(
             onLoading?.invoke()
         }
         is RequestCallback.Success -> {
-            dissmissLoading()
+            dismissLoading()
             onSuccess(requestCallback.data)
         }
         is RequestCallback.Error -> {
-            dissmissLoading()
+            dismissLoading()
             onError?.run {
                 this(requestCallback.exception)
             }

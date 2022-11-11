@@ -8,7 +8,6 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.neo.wanandroid.R
-import kotlinx.android.synthetic.main.layout_loading_dialog_view.*
 
 var loadingMsg = "请求网络中"
 private var loadingDialog : MaterialDialog? = null

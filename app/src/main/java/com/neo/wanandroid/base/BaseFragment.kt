@@ -1,32 +1,23 @@
 package com.neo.wanandroid.base
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.LayoutRes
-import androidx.fragment.app.Fragment
-import com.alibaba.android.arouter.launcher.ARouter
+import androidx.databinding.ViewDataBinding
+import com.lib.common.base.BaseViewModel
+import com.lib.common.base.BaseVmDbFragment
+import com.neo.wanandroid.ext.dismissLoadingExt
+import com.neo.wanandroid.ext.showLoadingExt
 
-abstract class BaseFragment : Fragment(){
-    lateinit var mFragmentView : View;
-
-    @LayoutRes
-    abstract fun getLayoutId() : Int
-    abstract fun showLoading(loadingMessage : String  = "正在加载中")
-    abstract fun dissmissLoading()
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mFragmentView = layoutInflater.inflate(getLayoutId(), container, false)
-        return mFragmentView
+abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : BaseVmDbFragment<VM, DB>() {
+    /**
+     * 打开等待框
+     */
+    fun showLoading(message: String) {
+        showLoadingExt(message)
     }
 
-    fun goActivity(path: String){
-        ARouter.getInstance().build(path).navigation()
+    /**
+     * 关闭等待框
+     */
+    fun dismissLoading() {
+        dismissLoadingExt()
     }
-
-    fun goActivity(path: String, bundle: Bundle){
-        ARouter.getInstance().build(path).with(bundle).navigation();
-    }
-
 }

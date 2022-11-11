@@ -1,2 +1,4 @@
-include ':app'
 rootProject.name = "WanandroidDemo"
+include ':app'
+include 'libs:lib-common'
+include ':libs:lib-network'

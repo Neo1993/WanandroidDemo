@@ -1,10 +1,8 @@
 package com.neo.wanandroid.vm
 
 import androidx.lifecycle.MutableLiveData
-import com.blankj.utilcode.util.VibrateUtils
-import com.kunminx.architecture.ui.callback.UnPeekLiveData
+import com.lib.common.base.BaseViewModel
 import com.neo.wanandroid.app.eventVM
-import com.neo.wanandroid.base.BaseViewModel
 import com.neo.wanandroid.ext.request
 import com.neo.wanandroid.model.bean.CollectState
 import com.neo.wanandroid.network.apiService

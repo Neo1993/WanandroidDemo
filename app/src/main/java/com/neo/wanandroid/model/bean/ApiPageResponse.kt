@@ -1,5 +1,8 @@
 package com.neo.wanandroid.model.bean
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ApiPageResponse<T>(
     var curPage: Int = 0,
     var datas: T,

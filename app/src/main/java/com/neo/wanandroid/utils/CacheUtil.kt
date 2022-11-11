@@ -1,12 +1,9 @@
 package com.neo.wanandroid.utils
 
 import android.text.TextUtils
-import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.neo.wanandroid.app.constant.PATH_ACTIVITY_LOGIN
 import com.neo.wanandroid.model.bean.User
-import com.neo.wanandroid.ui.mine.LoginActivity
 import com.tencent.mmkv.MMKV
 
 object CacheUtil {
@@ -41,9 +38,8 @@ object CacheUtil {
         val currentUser = getUser()
         val isLogin = currentUser != null
         if(!isLogin && goLogin){
-            ARouter.getInstance().build(PATH_ACTIVITY_LOGIN).navigation()
-        }
 
+        }
         return isLogin
     }
 

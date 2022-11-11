@@ -1,7 +1,7 @@
 package com.neo.wanandroid.vm
 
 import androidx.lifecycle.MutableLiveData
-import com.neo.wanandroid.base.BaseViewModel
+import com.lib.common.base.BaseViewModel
 import com.neo.wanandroid.model.bean.User
 import com.neo.wanandroid.utils.CacheUtil
 
